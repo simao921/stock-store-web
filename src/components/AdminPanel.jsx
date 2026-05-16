@@ -101,42 +101,33 @@ const AdminPanel = ({ onLogout }) => {
                type="button"
                onClick={async (e) => {
                  e.preventDefault();
-                 alert("CHECKPOINT 1: Botão clicado!");
-                 
-                 if (window.confirm("Deseja apagar os produtos antigos e criar os novos pacotes Vault-Blox?")) {
-                    try {
-                      alert("CHECKPOINT 2: Confirmação aceita. A ligar ao Supabase...");
-                      
-                      // 1. Limpar
-                      const { error: delErr } = await supabase.from('estoque').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-                      if (delErr) {
-                         alert("ERRO NO PASSO 1 (Limpeza): " + delErr.message);
-                         return;
-                      }
-
-                      alert("CHECKPOINT 3: Estoque limpo com sucesso. A criar novos pacotes...");
-
-                      // 2. Inserir
-                      const pacotes = [
-                        { nome: '45.000 ROBUX', descricao: '45.000 ROBUX (22.500 + 22.500 BÔNUS)', valor: 59.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
-                        { nome: '20.000 ROBUX', descricao: '20.000 ROBUX (10.000 + 10.000 BÔNUS)', valor: 39.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
-                        { nome: '9.000 ROBUX', descricao: '9.000 ROBUX (4.500 + 4.500 BÔNUS)', valor: 27.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
-                        { nome: '6.300 ROBUX', descricao: '6.300 ROBUX (3.150 + 3.150 BÔNUS)', valor: 24.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
-                        { nome: '3.400 ROBUX', descricao: '3.400 ROBUX (1.700 + 1.700 BÔNUS)', valor: 19.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' }
-                      ];
-
-                      const { error: insErr } = await supabase.from('estoque').insert(pacotes);
-                      if (insErr) {
-                         alert("ERRO NO PASSO 2 (Gravação): " + insErr.message);
-                         return;
-                      }
-
-                      alert("CHECKPOINT 4: Pacotes gravados! A atualizar o site...");
-                      await fetchData();
-                      alert("TUDO PRONTO! Os produtos já devem aparecer na lista.");
-                    } catch (err) {
-                      alert("ERRO FATAL: " + err.message);
+                 try {
+                    // 1. Limpar
+                    const { error: delErr } = await supabase.from('estoque').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                    if (delErr) {
+                       alert("Erro ao limpar: " + delErr.message);
+                       return;
                     }
+
+                    // 2. Inserir
+                    const pacotes = [
+                      { nome: '45.000 ROBUX', descricao: '45.000 ROBUX (22.500 + 22.500 BÔNUS)', valor: 59.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                      { nome: '20.000 ROBUX', descricao: '20.000 ROBUX (10.000 + 10.000 BÔNUS)', valor: 39.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                      { nome: '9.000 ROBUX', descricao: '9.000 ROBUX (4.500 + 4.500 BÔNUS)', valor: 27.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                      { nome: '6.300 ROBUX', descricao: '6.300 ROBUX (3.150 + 3.150 BÔNUS)', valor: 24.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                      { nome: '3.400 ROBUX', descricao: '3.400 ROBUX (1.700 + 1.700 BÔNUS)', valor: 19.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' }
+                    ];
+
+                    const { error: insErr } = await supabase.from('estoque').insert(pacotes);
+                    if (insErr) {
+                       alert("Erro ao gravar: " + insErr.message);
+                       return;
+                    }
+
+                    await fetchData();
+                    alert("PACOTES GERADOS COM SUCESSO! ✅");
+                 } catch (err) {
+                    alert("ERRO: " + err.message);
                  }
                }} 
                className="px-6 py-5 rounded-2xl bg-red-600/10 text-red-500 font-black uppercase tracking-widest text-[11px] hover:bg-red-600 hover:text-black border border-red-600/20 transition-all flex items-center gap-2"
