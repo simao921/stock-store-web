@@ -46,7 +46,7 @@ const generatePixPayload = (key, name, city, amount, txid = "WISEYSTORE") => {
   return payload + crc16(payload);
 };
 
-const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
+const CheckoutPage = ({ cart, finalTotal, robloxNick, onOrderComplete }) => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -79,7 +79,7 @@ const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
     try {
       const { data, error } = await supabase.from('pedidos').insert([
         {
-          discord_nick: discordNick,
+          roblox_nick: robloxNick,
           produto_id: cart[0].id,
           status: 'pendente'
         }
@@ -201,9 +201,9 @@ const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
                     </div>
 
                     <div className="pt-8 space-y-4">
-                      <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest leading-relaxed">
-                        Após o pagamento, o produto será enviado automaticamente para o seu email e vinculado ao seu Nick do Discord.
-                      </p>
+                        <p className="text-[10px] text-white/20 font-bold uppercase tracking-widest leading-relaxed">
+                          Após o pagamento, o seu pedido será processado e vinculado ao seu <span className="text-white">Nick do Roblox</span>.
+                        </p>
                       <div className="flex gap-4">
                         <a href="https://discord.gg/xqCtsTh9" target="_blank" rel="noopener noreferrer" className="flex-1 py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-[10px] hover:bg-red-600/10 hover:border-red-600/30 transition-all flex items-center justify-center gap-2">
                            SUPORTE <MessageCircle size={16} />

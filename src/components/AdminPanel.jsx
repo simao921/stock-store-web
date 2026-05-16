@@ -259,12 +259,12 @@ const AdminPanel = ({ onLogout }) => {
                 <div className="glass-card overflow-hidden border-white/5">
                    <table className="w-full text-left border-collapse">
                       <thead className="bg-white/[0.03] text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
-                         <tr><th className="px-12 py-8">Cliente</th><th className="px-12 py-8">Produto</th><th className="px-12 py-8">Valor</th><th className="px-12 py-8 text-center">Status</th></tr>
+                         <tr><th className="px-12 py-8">Nick Roblox</th><th className="px-12 py-8">Produto</th><th className="px-12 py-8">Valor</th><th className="px-12 py-8 text-center">Status</th></tr>
                       </thead>
                       <tbody className="divide-y divide-white/5">
                          {orders.map(o => (
                             <tr key={o.id} className="text-xs hover:bg-white/[0.01] transition-all">
-                               <td className="px-12 py-8 font-black uppercase text-white/60">{o.discord_nick}</td>
+                               <td className="px-12 py-8 font-black uppercase text-white/60">{o.roblox_nick}</td>
                                <td className="px-12 py-8 font-bold text-white/40 uppercase">{o.estoque?.nome || 'Removido'}</td>
                                <td className="px-12 py-8 text-white font-black text-base">R${(o.valor_pago || 0).toFixed(2)}</td>
                                <td className="px-12 py-8">

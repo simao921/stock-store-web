@@ -39,7 +39,7 @@ function App() {
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
   const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
-  const [discordNick, setDiscordNick] = useState('');
+  const [robloxNick, setRobloxNick] = useState('');
 
   useEffect(() => {
     localStorage.setItem('wisey_cart', JSON.stringify(cart));
@@ -128,7 +128,7 @@ function App() {
           coupon={coupon} setCoupon={setCoupon} applyCoupon={applyCoupon}
           discount={discount} appliedCoupon={appliedCoupon}
           total={cartTotal} finalTotal={finalTotal}
-          discordNick={discordNick} setDiscordNick={setDiscordNick}
+          robloxNick={robloxNick} setRobloxNick={setRobloxNick}
         />
 
         <AnimatePresence>
@@ -173,7 +173,7 @@ function App() {
                     </section>
                   </div>
                 } />
-                <Route path="/checkout" element={<CheckoutPage cart={cart} finalTotal={finalTotal} discordNick={discordNick} onOrderComplete={() => setCart([])} />} />
+                <Route path="/checkout" element={<CheckoutPage cart={cart} finalTotal={finalTotal} robloxNick={robloxNick} onOrderComplete={() => setCart([])} />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/support" element={<Support />} />
                 <Route path="/produto/:id" element={<ProductDetails onAddToCart={addToCart} />} />

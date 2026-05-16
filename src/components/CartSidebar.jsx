@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trash2, ShoppingBag, ArrowRight, Tag, CheckCircle2, MessageSquare, Plus, Minus, Ticket, QrCode, Copy, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, coupon, setCoupon, applyCoupon, discount, appliedCoupon, total, finalTotal, discordNick, setDiscordNick }) => {
+const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, coupon, setCoupon, applyCoupon, discount, appliedCoupon, total, finalTotal, robloxNick, setRobloxNick }) => {
   const [paymentStep, setPaymentStep] = useState(1); // 1: Cart, 2: PIX
   
   const pixKey = "contaffxzx0@gmail.com";
@@ -158,12 +158,12 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
             <div className="p-8 bg-white/[0.02] border-t border-white/5 space-y-6">
               {paymentStep === 1 ? (
                 <>
-                  {/* Discord Nick */}
+                  {/* Roblox Nick */}
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-[9px] font-black text-white/30 uppercase tracking-widest">
-                      <MessageSquare size={12} className="text-red-500" /> Nick Discord
+                      <MessageSquare size={12} className="text-red-500" /> Nick Roblox
                     </div>
-                    <input type="text" placeholder="Ex: wisey#0001" value={discordNick} onChange={(e) => setDiscordNick(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-xs focus:border-red-600 outline-none font-bold text-white" />
+                    <input type="text" placeholder="Ex: PlayerRoblox" value={robloxNick} onChange={(e) => setRobloxNick(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-xs focus:border-red-600 outline-none font-bold text-white" />
                   </div>
 
                   {/* Coupon Field */}
@@ -186,7 +186,7 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
 
                   <button 
                     onClick={() => setPaymentStep(2)} 
-                    className={`w-full py-5 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 hover:bg-red-700 hover:text-white transition-all shadow-xl shadow-red-600/5 ${(!discordNick || cart.length === 0) ? 'opacity-20 pointer-events-none' : ''}`}
+                    className={`w-full py-5 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 hover:bg-red-700 hover:text-white transition-all shadow-xl shadow-red-600/5 ${(!robloxNick || cart.length === 0) ? 'opacity-20 pointer-events-none' : ''}`}
                   >
                     FINALIZAR PEDIDO <ArrowRight size={16} />
                   </button>
