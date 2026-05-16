@@ -92,11 +92,22 @@ const AdminPanel = ({ onLogout }) => {
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex gap-4">
             <button onClick={onLogout} className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all flex items-center gap-2"><LogOut size={16}/> Logout</button>
             <button 
-               onClick={async () => {
-                 if (window.confirm("Isso irá apagar os produtos antigos e criar os pacotes do Vault-Blox. Continuar?")) {
+               type="button"
+               onClick={async (e) => {
+                 e.preventDefault();
+                 console.log("Iniciando geração de pacotes...");
+                 if (window.confirm("Deseja apagar os produtos antigos e criar os novos pacotes Vault-Blox?")) {
                     try {
+                      // Verificar se o supabase está configurado
+                      if (!supabase.supabaseUrl || supabase.supabaseUrl.includes("undefined")) {
+                        throw new Error("Configuração do Supabase ausente! Verifica as variáveis de ambiente na Vercel.");
+                      }
+
                       const { error: delErr } = await supabase.from('estoque').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-                      if (delErr) throw delErr;
+                      if (delErr) {
+                         console.error("Erro no Delete:", delErr);
+                         throw delErr;
+                      }
 
                       const pacotes = [
                         { nome: '45.000 ROBUX', descricao: '45.000 ROBUX (22.500 + 22.500 BÔNUS)', valor: 59.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
@@ -107,13 +118,16 @@ const AdminPanel = ({ onLogout }) => {
                       ];
 
                       const { error: insErr } = await supabase.from('estoque').insert(pacotes);
-                      if (insErr) throw insErr;
+                      if (insErr) {
+                         console.error("Erro no Insert:", insErr);
+                         throw insErr;
+                      }
 
-                      fetchData();
+                      await fetchData();
                       alert("Pacotes Robux criados com sucesso!");
                     } catch (err) {
-                      console.error(err);
-                      alert("ERRO: Certifica-te que criaste as tabelas no SQL Editor do Supabase primeiro! Erro: " + (err.message || err.details));
+                      console.error("Erro Catastrófico:", err);
+                      alert("ERRO: " + (err.message || "Falha ao conectar ao Supabase. Verifica se as tabelas foram criadas."));
                     }
                  }
                }} 
