@@ -49,4 +49,4 @@ const BackgroundEffects = () => {
   );
 };
 
-export default BackgroundEffects;
+export default React.memo(BackgroundEffects);

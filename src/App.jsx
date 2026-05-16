@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from './lib/supabaseClient';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -7,21 +7,21 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
-import CheckoutPage from './components/CheckoutPage';
-import AdminPanel from './components/AdminPanel';
-import Methods from './components/Methods';
-import Community from './components/Community';
-import Support from './components/Support';
-import ProductDetails from './components/ProductDetails';
-import FAQ from './components/FAQ';
 import CartSidebar from './components/CartSidebar';
 import AdminLogin from './components/AdminLogin';
-import Policies from './components/Policies';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import BackgroundEffects from './components/BackgroundEffects';
 
 import { RefreshCcw } from 'lucide-react';
+
+// Lazy load pages for performance
+const CheckoutPage = lazy(() => import('./components/CheckoutPage'));
+const AdminPanel = lazy(() => import('./components/AdminPanel'));
+const FAQ = lazy(() => import('./components/FAQ'));
+const Support = lazy(() => import('./components/Support'));
+const ProductDetails = lazy(() => import('./components/ProductDetails'));
+const Policies = lazy(() => import('./components/Policies'));
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -139,37 +139,41 @@ function App() {
 
         <main className="relative z-10 w-full min-h-screen">
           {showAdmin ? (
-            <AdminPanel onLogout={() => setShowAdmin(false)} />
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><RefreshCcw className="animate-spin text-red-600" /></div>}>
+              <AdminPanel onLogout={() => setShowAdmin(false)} />
+            </Suspense>
           ) : (
-            <Routes>
-              <Route path="/" element={
-                <div className="animate-in fade-in duration-700 w-full">
-                  <Hero />
-                  <section id="catalog" className="max-w-7xl mx-auto px-8 py-40">
-                    <div className="mb-24 text-center">
-                      <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Pacotes Disponíveis</span>
-                      <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8 font-heading">
-                        <span className="text-white">ESCOLHA SEU</span> <span className="text-red-600">PACOTE</span>
-                      </h2>
-                      <div className="w-24 h-1 bg-red-600 rounded-full mx-auto" />
-                    </div>
-                    {loading ? (
-                      <div className="flex justify-center py-20 opacity-20"><RefreshCcw className="animate-spin text-red-600" /></div>
-                    ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        {products.map(p => <ProductCard key={p.id} product={p} />)}
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><RefreshCcw className="animate-spin text-red-600" /></div>}>
+              <Routes>
+                <Route path="/" element={
+                  <div className="animate-in fade-in duration-700 w-full">
+                    <Hero />
+                    <section id="catalog" className="max-w-7xl mx-auto px-8 py-40">
+                      <div className="mb-24 text-center">
+                        <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Pacotes Disponíveis</span>
+                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8 font-heading">
+                          <span className="text-white">ESCOLHA SEU</span> <span className="text-red-600">PACOTE</span>
+                        </h2>
+                        <div className="w-24 h-1 bg-red-600 rounded-full mx-auto" />
                       </div>
-                    )}
-                  </section>
-                </div>
-              } />
-              <Route path="/checkout" element={<CheckoutPage cart={cart} finalTotal={finalTotal} discordNick={discordNick} onOrderComplete={() => setCart([])} />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/produto/:id" element={<ProductDetails onAddToCart={addToCart} />} />
-              <Route path="/policies" element={<Policies />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
+                      {loading ? (
+                        <div className="flex justify-center py-20 opacity-20"><RefreshCcw className="animate-spin text-red-600" /></div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                          {products.map(p => <ProductCard key={p.id} product={p} />)}
+                        </div>
+                      )}
+                    </section>
+                  </div>
+                } />
+                <Route path="/checkout" element={<CheckoutPage cart={cart} finalTotal={finalTotal} discordNick={discordNick} onOrderComplete={() => setCart([])} />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/support" element={<Support />} />
+                <Route path="/produto/:id" element={<ProductDetails onAddToCart={addToCart} />} />
+                <Route path="/policies" element={<Policies />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </Suspense>
           )}
         </main>
 
