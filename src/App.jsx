@@ -1,0 +1,182 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from './lib/supabaseClient';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+// Component Imports
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import ProductCard from './components/ProductCard';
+import CheckoutPage from './components/CheckoutPage';
+import AdminPanel from './components/AdminPanel';
+import Methods from './components/Methods';
+import Community from './components/Community';
+import Support from './components/Support';
+import ProductDetails from './components/ProductDetails';
+import FAQ from './components/FAQ';
+import CartSidebar from './components/CartSidebar';
+import AdminLogin from './components/AdminLogin';
+import Policies from './components/Policies';
+import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+
+import { RefreshCcw } from 'lucide-react';
+
+function App() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [cart, setCart] = useState(() => {
+    try {
+      const savedCart = localStorage.getItem('wisey_cart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (e) { return []; }
+  });
+  
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [coupon, setCoupon] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
+  const [discordNick, setDiscordNick] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('wisey_cart', JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    fetchProducts();
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === '6' || e.code === 'Digit6')) {
+        e.preventDefault();
+        setIsAdminLoginOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.from('estoque').select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      if (data) setProducts(data);
+    } catch (err) { console.error(err); } finally { setLoading(false); }
+  };
+
+  const addToCart = (product) => {
+    const existing = cart.find(item => item.id === product.id);
+    if (existing) {
+      setCart(cart.map(item => item.id === product.id ? { ...item, quantity: (item.quantity || 1) + 1 } : item));
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+    setIsCartOpen(true);
+  };
+
+  const updateQuantity = (id, delta) => {
+    setCart(cart.map(item => item.id === id ? { ...item, quantity: Math.max(1, (item.quantity || 1) + delta) } : item));
+  };
+
+  const removeFromCart = (id) => setCart(cart.filter(item => item.id !== id));
+
+  // APLICAÇÃO DE CUPÃO REAL VIA SUPABASE
+  const applyCoupon = async () => {
+    if (!coupon) return;
+    try {
+      const { data, error } = await supabase
+        .from('cupons')
+        .select('*')
+        .eq('codigo', coupon.toUpperCase())
+        .eq('ativo', true)
+        .single();
+
+      if (error || !data) {
+        alert('Cupão inválido ou expirado.');
+        setDiscount(0);
+        setAppliedCoupon(null);
+      } else {
+        setDiscount(parseFloat(data.desconto));
+        setAppliedCoupon(data.codigo);
+        alert(`Cupão ${data.codigo} aplicado! Desconto de ${(data.desconto * 100).toFixed(0)}%`);
+      }
+    } catch (err) {
+      alert('Erro ao validar cupão.');
+    }
+  };
+
+  const cartTotal = cart.reduce((acc, curr) => acc + (curr.valor * (curr.quantity || 1)), 0);
+  const finalTotal = cartTotal * (1 - discount);
+
+  return (
+    <Router>
+      <ScrollToTop />
+      <div className="min-h-screen text-white selection:bg-purple-600/30 overflow-x-hidden w-full bg-black">
+        <Navbar 
+          onDashboardToggle={() => setIsAdminLoginOpen(true)}
+          showDashboard={showAdmin}
+          cartCount={cart.reduce((a, b) => a + (b.quantity || 1), 0)}
+          onOpenCart={() => setIsCartOpen(true)}
+        />
+
+        <CartSidebar 
+          isOpen={isCartOpen} onClose={() => setIsCartOpen(false)}
+          cart={cart} updateQuantity={updateQuantity} removeFromCart={removeFromCart}
+          coupon={coupon} setCoupon={setCoupon} applyCoupon={applyCoupon}
+          discount={discount} appliedCoupon={appliedCoupon}
+          total={cartTotal} finalTotal={finalTotal}
+          discordNick={discordNick} setDiscordNick={setDiscordNick}
+        />
+
+        <AnimatePresence>
+          {isAdminLoginOpen && (
+            <AdminLogin onLogin={() => { setIsAdminLoginOpen(false); setShowAdmin(true); }} onClose={() => setIsAdminLoginOpen(false)} />
+          )}
+        </AnimatePresence>
+
+        <main className="relative z-10 w-full min-h-screen">
+          {showAdmin ? (
+            <AdminPanel onLogout={() => setShowAdmin(false)} />
+          ) : (
+            <Routes>
+              <Route path="/" element={
+                <div className="animate-in fade-in duration-700 w-full">
+                  <Hero />
+                  <section id="catalog" className="max-w-7xl mx-auto px-8 py-40">
+                    <div className="mb-24 text-center md:text-left">
+                      <span className="text-purple-500 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Catálogo Premium</span>
+                      <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8 font-heading">
+                        <span className="text-white">SOBERANIA</span> <span className="text-purple-600">DIGITAL</span>
+                      </h2>
+                      <div className="w-24 h-1 bg-purple-600 rounded-full mx-auto md:mx-0" />
+                    </div>
+                    {loading ? (
+                      <div className="flex justify-center py-20 opacity-20"><RefreshCcw className="animate-spin" /></div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                        {products.map(p => <ProductCard key={p.id} product={p} />)}
+                      </div>
+                    )}
+                  </section>
+                </div>
+              } />
+              <Route path="/checkout" element={<CheckoutPage cart={cart} finalTotal={finalTotal} discordNick={discordNick} onOrderComplete={() => setCart([])} />} />
+              <Route path="/methods" element={<Methods />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/produto/:id" element={<ProductDetails onAddToCart={addToCart} />} />
+              <Route path="/policies" element={<Policies />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          )}
+        </main>
+
+        {!showAdmin && <Footer />}
+      </div>
+    </Router>
+  );
+}
+
+export default App;
