@@ -18,7 +18,7 @@ const FAQ = () => {
       <div className="max-w-4xl mx-auto relative z-10">
         
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-32">
-          <span className="text-purple-500 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Central de Ajuda</span>
+          <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Central de Ajuda</span>
           <h1 className="text-7xl md:text-[8rem] font-heading font-black tracking-tighter uppercase leading-[0.8] mb-12">
             <span className="block text-white">DÚVIDAS</span>
             <span className="text-outline-premium block mt-2">FREQUENTES</span>
@@ -33,7 +33,7 @@ const FAQ = () => {
                   className="w-full px-10 py-8 flex items-center justify-between text-left hover:bg-white/[0.01] transition-colors"
                 >
                    <span className="text-lg font-black uppercase tracking-tight text-white/80">{faq.q}</span>
-                   <div className={`p-2 rounded-full transition-all ${openIndex === i ? 'bg-purple-600 text-white rotate-180' : 'bg-white/5 text-white/40'}`}>
+                   <div className={`p-2 rounded-full transition-all ${openIndex === i ? 'bg-red-700 text-white rotate-180' : 'bg-white/5 text-white/40'}`}>
                       {openIndex === i ? <Minus size={20} /> : <Plus size={20} />}
                    </div>
                 </button>
@@ -56,7 +56,7 @@ const FAQ = () => {
         </div>
 
         <div className="mt-32 text-center p-12 glass-card border-white/5">
-           <HelpCircle size={40} className="mx-auto mb-6 text-purple-500 opacity-50" />
+           <HelpCircle size={40} className="mx-auto mb-6 text-red-600 opacity-50" />
            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
               Ainda com dúvidas? <a href="/support" className="text-white underline ml-2">Fale com o Suporte</a>
            </p>

@@ -36,7 +36,7 @@ const Navbar = ({ cartCount, onOpenCart }) => {
               className="relative w-10 h-10"
             >
               <div className="absolute inset-0 rounded-full bg-red-600/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <img src="/assets/logo.png" alt="WISEY" className="w-full h-full object-cover relative rounded-full" />
+              <img src="/logo.jpg" alt="WISEY" className="w-full h-full object-cover relative rounded-full" />
             </motion.div>
             <span className="font-black text-xl tracking-tighter uppercase font-heading text-white">
               WISEY<span className="text-red-600">STORE</span>
@@ -112,7 +112,7 @@ const Navbar = ({ cartCount, onOpenCart }) => {
                   to={link.path}
                   className="py-4 px-5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all"
                   style={{ 
-                    background: location.pathname === link.path ? 'rgba(16,185,129,0.1)' : 'transparent',
+                    background: location.pathname === link.path ? 'rgba(220,38,38,0.1)' : 'transparent',
                     color: location.pathname === link.path ? '#dc2626' : 'rgba(255,255,255,0.4)' 
                   }}
                 >

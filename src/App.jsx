@@ -19,6 +19,7 @@ import AdminLogin from './components/AdminLogin';
 import Policies from './components/Policies';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import BackgroundEffects from './components/BackgroundEffects';
 
 import { RefreshCcw } from 'lucide-react';
 
@@ -112,7 +113,8 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen text-white selection:bg-purple-600/30 overflow-x-hidden w-full bg-black">
+      <div className="min-h-screen text-white selection:bg-red-600/30 overflow-x-hidden w-full bg-black relative">
+        <BackgroundEffects />
         <Navbar 
           onDashboardToggle={() => setIsAdminLoginOpen(true)}
           showDashboard={showAdmin}

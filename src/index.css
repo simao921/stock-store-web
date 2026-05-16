@@ -42,9 +42,9 @@
   }
 }
 
-/* ─── PREMIUM GREEN GRADIENT ─── */
+/* ─── PREMIUM GRADIENT ─── */
 .premium-gradient {
-  background: linear-gradient(135deg, #fff 0%, #dc2626 50%, #059669 100%);
+  background: linear-gradient(135deg, #fff 0%, #dc2626 50%, #991b1b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -53,21 +53,21 @@
 /* ─── GLASSMORPHISM ─── */
 .glass-card {
   background: rgba(10, 10, 10, 0.7);
-  border: 1px solid rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.1);
   backdrop-filter: blur(12px);
   border-radius: 20px;
   transition: all 0.3s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(16, 185, 129, 0.4);
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.1);
+  border-color: rgba(220, 38, 38, 0.4);
+  box-shadow: 0 0 30px rgba(220, 38, 38, 0.1);
   transform: translateY(-5px);
 }
 
 /* ─── GLOW EFFECT ─── */
-.glow-green {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+.glow-red {
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.2);
 }
 
 /* ─── ANIMATIONS ─── */

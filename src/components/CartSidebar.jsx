@@ -12,7 +12,7 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
           <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25 }} className="fixed right-0 top-0 h-full w-full max-w-md bg-[#050505] border-l border-white/5 shadow-2xl z-[101] flex flex-col">
             <div className="p-8 border-b border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-2xl bg-purple-500/10 text-purple-500"><ShoppingBag size={20} /></div>
+                <div className="p-3 rounded-2xl bg-red-600/10 text-red-600"><ShoppingBag size={20} /></div>
                 <h2 className="text-xl font-black uppercase tracking-tighter text-white">Seu Carrinho</h2>
               </div>
               <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-xl text-white/40"><X /></button>
@@ -30,11 +30,11 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-xl overflow-hidden bg-white/5 border border-white/10 shrink-0">
-                          {item.imagem_url ? <img src={item.imagem_url} alt={item.nome} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-purple-500 font-black text-[10px]">{item.categoria[0]}</div>}
+                          {item.imagem_url ? <img src={item.imagem_url} alt={item.nome} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-red-600 font-black text-[10px]">{item.categoria[0]}</div>}
                         </div>
                         <div>
                           <h4 className="text-[10px] font-black uppercase tracking-tight text-white">{item.nome}</h4>
-                          <p className="text-[10px] text-purple-400 font-bold">R$ {item.valor.toFixed(2)}</p>
+                          <p className="text-[10px] text-red-500 font-bold">R$ {item.valor.toFixed(2)}</p>
                         </div>
                       </div>
                       <button onClick={() => removeFromCart(item.id)} className="p-2 text-white/20 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
@@ -58,19 +58,19 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
               {/* Discord Nick */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-[9px] font-black text-white/30 uppercase tracking-widest">
-                  <MessageSquare size={12} className="text-purple-400" /> Nick Discord
+                  <MessageSquare size={12} className="text-red-500" /> Nick Discord
                 </div>
-                <input type="text" placeholder="Ex: wisey#0001" value={discordNick} onChange={(e) => setDiscordNick(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-xs focus:border-purple-500 outline-none font-bold text-white" />
+                <input type="text" placeholder="Ex: wisey#0001" value={discordNick} onChange={(e) => setDiscordNick(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-xs focus:border-red-600 outline-none font-bold text-white" />
               </div>
 
               {/* Coupon Field */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-[9px] font-black text-white/30 uppercase tracking-widest">
-                  <Ticket size={12} className="text-purple-400" /> Cupom de Desconto
+                  <Ticket size={12} className="text-red-500" /> Cupom de Desconto
                 </div>
                 <div className="flex gap-2">
-                   <input type="text" placeholder="Código" value={coupon} onChange={(e) => setCoupon(e.target.value)} className="flex-grow bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-xs focus:border-purple-500 outline-none font-bold text-white uppercase" />
-                   <button onClick={applyCoupon} className="px-6 rounded-xl bg-white text-black font-black uppercase text-[10px] hover:bg-purple-500 hover:text-white transition-all">Aplicar</button>
+                   <input type="text" placeholder="Código" value={coupon} onChange={(e) => setCoupon(e.target.value)} className="flex-grow bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-xs focus:border-red-600 outline-none font-bold text-white uppercase" />
+                   <button onClick={applyCoupon} className="px-6 rounded-xl bg-white text-black font-black uppercase text-[10px] hover:bg-red-600 hover:text-white transition-all">Aplicar</button>
                 </div>
                 {appliedCoupon && (
                    <div className="flex items-center gap-2 text-[10px] font-black text-red-500 uppercase tracking-widest">
@@ -97,7 +97,7 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
                 </div>
               </div>
 
-              <Link to="/checkout" onClick={onClose} className={`w-full py-5 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 hover:bg-purple-600 hover:text-white transition-all shadow-xl ${(!discordNick || cart.length === 0) ? 'opacity-20 pointer-events-none' : ''}`}>
+              <Link to="/checkout" onClick={onClose} className={`w-full py-5 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 hover:bg-red-700 hover:text-white transition-all shadow-xl ${(!discordNick || cart.length === 0) ? 'opacity-20 pointer-events-none' : ''}`}>
                 FINALIZAR COMPRA <ArrowRight size={16} />
               </Link>
             </div>

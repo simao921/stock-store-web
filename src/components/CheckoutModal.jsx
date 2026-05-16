@@ -69,7 +69,7 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
             <button onClick={onClose} className="absolute top-8 right-8 text-white/30 hover:text-white transition-colors"><X size={24} /></button>
 
             <div className="flex items-center gap-5 mb-10">
-              <div className="w-16 h-16 rounded-[1.5rem] bg-purple-500/10 flex items-center justify-center text-purple-400 border border-purple-500/20">
+              <div className="w-16 h-16 rounded-[1.5rem] bg-red-600/10 flex items-center justify-center text-red-500 border border-red-600/20">
                 <CreditCard size={32} />
               </div>
               <div>
@@ -89,7 +89,7 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
                         includeMargin={false}
                       />
                    </div>
-                   <p className="text-[10px] font-black text-center mt-4 text-purple-400 uppercase tracking-widest animate-pulse">Aguardando Pagamento</p>
+                   <p className="text-[10px] font-black text-center mt-4 text-red-500 uppercase tracking-widest animate-pulse">Aguardando Pagamento</p>
                 </div>
 
                 <div className="flex-grow w-full space-y-6">
@@ -97,7 +97,7 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
                      <div>
                         <span className="text-[10px] font-black text-white/20 uppercase tracking-widest block mb-2">Total a Pagar</span>
                         <div className="text-4xl font-black text-white leading-none">
-                           <span className="text-sm text-purple-500 mr-1">R$</span>{finalTotal.toFixed(2)}
+                           <span className="text-sm text-red-600 mr-1">R$</span>{finalTotal.toFixed(2)}
                         </div>
                      </div>
                      <div className="text-right">
@@ -116,7 +116,7 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
                         />
                         <button 
                           onClick={copyToClipboard}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-purple-600 text-white rounded-xl hover:bg-purple-500 transition-all shadow-lg"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center bg-red-700 text-white rounded-xl hover:bg-red-600 transition-all shadow-lg"
                         >
                           {copied ? <Check size={18} /> : <Copy size={18} />}
                         </button>
@@ -129,7 +129,7 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
             <button 
               disabled={saving}
               onClick={handleConfirm}
-              className="w-full flex items-center justify-center gap-3 py-6 rounded-3xl bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-all shadow-[0_20px_60px_-10px_rgba(168,85,247,0.5)] disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-3 py-6 rounded-3xl bg-red-700 text-white font-black uppercase tracking-widest text-sm hover:bg-red-600 transition-all shadow-[0_20px_60px_-10px_rgba(168,85,247,0.5)] disabled:opacity-50"
             >
               {saving ? 'Validando...' : 'Confirmar Pagamento'}
               <ArrowRight size={18} />
@@ -159,7 +159,7 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
             
             <h2 className="text-4xl font-black tracking-tighter text-white mb-4 uppercase">Obrigado!</h2>
             <p className="text-white/40 text-sm font-medium mb-10 leading-relaxed uppercase tracking-widest">
-              Sua compra na <span className="text-purple-400 font-black">Wisey Store</span> foi registrada com sucesso.
+              Sua compra na <span className="text-red-500 font-black">Wisey Store</span> foi registrada com sucesso.
             </p>
 
             <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 mb-10">
@@ -169,7 +169,7 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
                <p className="text-[10px] text-white/20 mt-2 uppercase">Aguardando entrega no Discord</p>
             </div>
 
-            <div className="flex items-center justify-center gap-3 text-purple-400 text-[10px] font-black uppercase tracking-[0.3em]">
+            <div className="flex items-center justify-center gap-3 text-red-500 text-[10px] font-black uppercase tracking-[0.3em]">
                <RefreshCcw size={12} className="animate-spin" /> Redirecionando...
             </div>
           </motion.div>

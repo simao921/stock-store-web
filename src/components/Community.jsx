@@ -14,7 +14,7 @@ const Community = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-32">
-          <span className="text-purple-500 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Ecossistema Elite</span>
+          <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Ecossistema Elite</span>
           <h1 className="text-7xl md:text-[8rem] font-heading font-black tracking-tighter uppercase leading-[0.8] mb-12">
             <span className="block text-white">NOSSA</span>
             <span className="text-outline-premium block mt-2">COMUNIDADE</span>
@@ -27,7 +27,7 @@ const Community = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-32">
            {stats.map((s, i) => (
              <div key={i} className="glass-card p-12 text-center border-white/5">
-                <div className="w-16 h-16 rounded-3xl bg-purple-600/10 border border-purple-500/20 flex items-center justify-center mx-auto mb-8 text-purple-500">
+                <div className="w-16 h-16 rounded-3xl bg-red-700/10 border border-red-600/20 flex items-center justify-center mx-auto mb-8 text-red-600">
                    <s.icon size={28} />
                 </div>
                 <div className="text-4xl font-black font-heading text-white mb-2">{s.val}</div>
@@ -47,7 +47,7 @@ const Community = () => {
              href="https://discord.gg/xqCtsTh9" 
              target="_blank" 
              rel="noopener noreferrer"
-             className="px-16 py-6 bg-white text-black font-black uppercase tracking-widest text-xs rounded-full hover:bg-purple-600 hover:text-white transition-all shadow-2xl shadow-white/10 flex items-center gap-4"
+             className="px-16 py-6 bg-white text-black font-black uppercase tracking-widest text-xs rounded-full hover:bg-red-700 hover:text-white transition-all shadow-2xl shadow-white/10 flex items-center gap-4"
            >
               ENTRAR NO DISCORD <MessageSquare size={20} />
            </a>
