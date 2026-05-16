@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 
 // Função para gerar o Payload do PIX (Estático)
-const generatePixPayload = (key, name, city, amount, txid = "WISEYSTORE") => {
+const generatePixPayload = (key, name, city, amount) => {
+  const txid = "W" + Math.random().toString(36).substring(2, 12).toUpperCase();
   const formatField = (id, value) => {
     const len = value.length.toString().padStart(2, '0');
     return `${id}${len}${value}`;
@@ -181,8 +182,8 @@ const CheckoutPage = ({ cart, finalTotal, robloxNick, onOrderComplete }) => {
                   <div className="max-w-md mx-auto space-y-6">
                     <div className="bg-white/[0.03] border border-white/5 rounded-3xl p-6 text-left">
                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-white/20">Beneficiário</span>
-                          <span className="text-xs font-bold text-white">{receiverName}</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-white/20">Status</span>
+                          <span className="text-xs font-bold text-red-500 animate-pulse">AGUARDANDO PAGAMENTO</span>
                        </div>
                        <div className="flex justify-between items-center">
                           <span className="text-[10px] font-black uppercase tracking-widest text-white/20">Valor Total</span>

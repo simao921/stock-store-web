@@ -24,6 +24,9 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
     const key = formatField('01', pixKey);
     const merchantAccount = formatField('26', gui + key);
 
+    const txidValue = "W" + Math.random().toString(36).substring(2, 12).toUpperCase();
+    const additionalDataField = formatField('62', formatField('05', txidValue));
+
     let payload = [
       formatField('00', '01'), // Payload Format Indicator
       merchantAccount,
@@ -33,14 +36,23 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
       formatField('58', 'BR'),   // Country Code
       formatField('59', merchantName.substring(0, 25)), // Merchant Name
       formatField('60', merchantCity.substring(0, 15)), // Merchant City
-      formatField('62', formatField('05', '***')),      // Additional Data
+      additionalDataField,      // Unique TXID
     ].join('');
 
-    // Adiciona o ID 63 e o tamanho 04 para o CRC, mas sem calcular o CRC real (maioria dos bancos aceita ou ignora se for estático simples em testes, 
-    // mas para ser 100% real precisaria do CRC16-CCITT. Aqui usaremos um placeholder ou omitiremos para evitar erros de leitura se o banco for rigoroso)
-    // Para garantir compatibilidade total sem uma lib pesada de CRC16, a melhor forma é usar a chave pura no QR se for chave e-mail/telefone,
-    // mas o usuário pediu "automatico". Muitos bancos brasileiros aceitam o payload sem o CRC em QRs estáticos gerados por APIs simples.
-    return payload + "6304"; 
+    // CRC16 Calculation
+    const crc16 = (data) => {
+      let crc = 0xFFFF;
+      for (let i = 0; i < data.length; i++) {
+        crc ^= data.charCodeAt(i) << 8;
+        for (let j = 0; j < 8; j++) {
+          if (crc & 0x8000) crc = (crc << 1) ^ 0x1021;
+          else crc <<= 1;
+        }
+      }
+      return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+    };
+
+    return payload + "6304" + crc16(payload + "6304"); 
   };
 
   const pixPayload = generatePixPayload();
@@ -131,8 +143,8 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
                   </div>
                   <h3 className="text-xl font-black uppercase tracking-tight text-white mb-2">Escaneie o QR Code</h3>
                   <div className="flex flex-col gap-1 mb-8">
-                     <span className="text-[10px] font-black text-red-500 uppercase tracking-widest">{merchantName}</span>
-                     <span className="text-[8px] font-bold text-white/20 uppercase tracking-[0.2em]">{merchantCity}</span>
+                     <span className="text-[10px] font-black text-red-500 uppercase tracking-widest">Pagamento Seguro via PIX</span>
+                     <span className="text-[8px] font-bold text-white/20 uppercase tracking-[0.2em]">Processamento Automático</span>
                   </div>
 
                   <div className="w-full p-6 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col gap-4">
