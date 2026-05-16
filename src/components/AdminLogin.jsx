@@ -18,15 +18,19 @@ const AdminLogin = ({ onLogin, onClose }) => {
   }, []);
 
   const checkGlobalLock = async () => {
-    const { data } = await supabase
-      .from('configuracoes')
-      .select('valor')
-      .eq('chave', 'admin_status')
-      .single();
-    
-    if (data && data.valor === 'locked') {
-      setIsLocked(true);
-      setError('SISTEMA BLOQUEADO PERMANENTEMENTE NO BANCO DE DADOS.');
+    try {
+      const { data } = await supabase
+        .from('configuracoes')
+        .select('valor')
+        .eq('chave', 'admin_status')
+        .single();
+      
+      if (data && data.valor === 'locked') {
+        setIsLocked(true);
+        setError('SISTEMA BLOQUEADO PERMANENTEMENTE NO BANCO DE DADOS.');
+      }
+    } catch (e) {
+      console.log("Configurações ainda não criadas no Supabase.");
     }
   };
 
@@ -46,10 +50,11 @@ const AdminLogin = ({ onLogin, onClose }) => {
         setError('BLOQUEANDO ACESSO PERMANENTEMENTE...');
         
         // Salva o bloqueio no Banco de Dados
-        await supabase
-          .from('configuracoes')
-          .update({ valor: 'locked' })
-          .eq('chave', 'admin_status');
+        try {
+          await supabase
+            .from('configuracoes')
+            .upsert({ chave: 'admin_status', valor: 'locked' });
+        } catch(e) {}
           
         setError('SISTEMA BLOQUEADO PERMANENTEMENTE NO BANCO DE DADOS.');
         return;
@@ -65,10 +70,8 @@ const AdminLogin = ({ onLogin, onClose }) => {
         const minutes = lockTime / 60000;
         setError(`Muitas tentativas falhas. Tente novamente em ${minutes} ${minutes === 1 ? 'minuto' : 'minutos'}.`);
         setTimeout(() => {
-          if (!localStorage.getItem('wisey_perm_lock')) {
-            setIsLocked(false);
-            setError('');
-          }
+          setIsLocked(false);
+          setError('');
         }, lockTime);
       } else {
         setError(`Código inválido. Tentativa ${newAttempts} de 6.`);
@@ -82,7 +85,7 @@ const AdminLogin = ({ onLogin, onClose }) => {
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-        className="w-full max-w-md bg-[#0a0a0c] border border-white/10 rounded-[2.5rem] p-10 relative shadow-[0_0_100px_rgba(139,92,246,0.1)]"
+        className="w-full max-w-md bg-[#0a0a0c] border border-white/10 rounded-[2.5rem] p-10 relative shadow-[0_0_100px_rgba(220,38,38,0.1)]"
       >
         <button 
           onClick={onClose}
@@ -92,7 +95,7 @@ const AdminLogin = ({ onLogin, onClose }) => {
         </button>
 
         <div className="text-center mb-10">
-          <div className="w-20 h-20 bg-primary/10 rounded-3xl mx-auto mb-6 flex items-center justify-center text-primary shadow-inner">
+          <div className="w-20 h-20 bg-red-600/10 rounded-3xl mx-auto mb-6 flex items-center justify-center text-red-600 shadow-inner">
             <Lock size={32} />
           </div>
           <h2 className="text-2xl font-black tracking-tighter uppercase mb-2">Acesso Restrito</h2>
@@ -107,7 +110,7 @@ const AdminLogin = ({ onLogin, onClose }) => {
                 type={showPassword ? "text" : "password"}
                 required
                 disabled={isLocked}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-sm focus:outline-none focus:border-primary transition-all font-bold placeholder:text-slate-700"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-sm focus:outline-none focus:border-red-600 transition-all font-bold placeholder:text-slate-700 text-white"
                 placeholder="DIGITE O CÓDIGO"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -115,7 +118,7 @@ const AdminLogin = ({ onLogin, onClose }) => {
               <button 
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 hover:text-primary transition-colors"
+                className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 hover:text-red-600 transition-colors"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -141,7 +144,7 @@ const AdminLogin = ({ onLogin, onClose }) => {
             className={`w-full py-5 rounded-2xl text-[11px] font-black uppercase tracking-[0.4em] transition-all duration-500 ${
               isLocked 
               ? 'bg-slate-800 text-slate-500 cursor-not-allowed opacity-50' 
-              : 'bg-primary text-white shadow-[0_15px_40px_-10px_rgba(139,92,246,0.4)] hover:bg-primary/80'
+              : 'bg-red-600 text-white shadow-[0_15px_40px_-10px_rgba(220,38,38,0.4)] hover:bg-red-700'
             }`}
           >
             {isLocked ? 'SISTEMA BLOQUEADO' : 'AUTENTICAR'}
@@ -157,6 +160,7 @@ const AdminLogin = ({ onLogin, onClose }) => {
         </div>
       </motion.div>
     </div>
+iv>
   );
 };
 
