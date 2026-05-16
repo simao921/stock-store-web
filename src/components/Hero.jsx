@@ -28,14 +28,14 @@ const Hero = () => {
             className="text-5xl md:text-8xl font-black tracking-tight uppercase leading-[0.9] mb-8 font-heading"
           >
             <span className="text-white">COMPRE ROBUX COM</span><br />
-            <span className="text-red-600 drop-shadow-[0_0_30px_rgba(16,185,129,0.3)]">BÔNUS EXCLUSIVO</span>
+            <span className="text-red-600 drop-shadow-[0_0_30px_rgba(220,38,38,0.3)]">BÔNUS EXCLUSIVO</span>
           </motion.h1>
 
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-white/40 text-sm md:text-lg font-medium max-w-2xl mb-12 uppercase tracking-[0.1em]"
+            className="text-white/80 text-sm md:text-lg font-medium max-w-2xl mb-12 uppercase tracking-[0.1em]"
           >
             Receba os seus Robux de forma <span className="text-white">imediata e segura</span>. <br className="hidden md:block" />
             Promoção ativa: <span className="text-red-500 font-bold">+100% de bônus em todas as compras</span>.
@@ -47,7 +47,7 @@ const Hero = () => {
               href="#catalog"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 bg-red-600 text-black font-black uppercase tracking-widest text-xs rounded-2xl flex items-center gap-3 shadow-[0_0_50px_rgba(16,185,129,0.4)] hover:bg-red-500 transition-all"
+              className="px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl flex items-center gap-3 shadow-[0_0_50px_rgba(220,38,38,0.4)] hover:bg-red-500 transition-all"
             >
               <ShoppingCart size={18} /> COMEÇAR A COMPRAR
             </motion.a>
@@ -74,7 +74,7 @@ const Hero = () => {
           <div className="flex items-center gap-4 py-4 px-6 rounded-2xl bg-white/5 border border-white/10">
             <div className="flex -space-x-2">
               {[1,2,3,4].map(i => (
-                <div key={i} className="w-8 h-8 rounded-full border-2 border-black bg-emerald-900 flex items-center justify-center text-[10px] font-bold text-red-400">
+                <div key={i} className="w-8 h-8 rounded-full border-2 border-black bg-red-900 flex items-center justify-center text-[10px] font-bold text-red-400">
                   U{i}
                 </div>
               ))}
