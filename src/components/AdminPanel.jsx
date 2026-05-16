@@ -96,11 +96,11 @@ const AdminPanel = ({ onLogout }) => {
                  if (window.confirm("Isso irá apagar os produtos antigos e criar os pacotes do Vault-Blox. Continuar?")) {
                     await supabase.from('estoque').delete().neq('id', '00000000-0000-0000-0000-000000000000');
                     const pacotes = [
-                      { nome: '400 Robux (+400 Bônus)', descricao: 'Pacote inicial com 100% de bônus acumulativo.', valor: 19.90, categoria: 'Robux', quantidade: 999, imagem_url: 'https://images.unsplash.com/photo-1627163439134-7a8c47e08238?auto=format&fit=crop&q=80&w=800' },
-                      { nome: '800 Robux (+800 Bônus)', descricao: 'Pacote médio para quem busca custo-benefício.', valor: 39.90, categoria: 'Robux', quantidade: 999, imagem_url: 'https://images.unsplash.com/photo-1627163439134-7a8c47e08238?auto=format&fit=crop&q=80&w=800' },
-                      { nome: '1700 Robux (+1700 Bônus)', descricao: 'O pacote mais vendido! Ideal para grandes compras.', valor: 79.90, categoria: 'Robux', quantidade: 999, imagem_url: 'https://images.unsplash.com/photo-1627163439134-7a8c47e08238?auto=format&fit=crop&q=80&w=800' },
-                      { nome: '4500 Robux (+4500 Bônus)', descricao: 'Pacote VIP para jogadores hardcore.', valor: 199.90, categoria: 'Robux', quantidade: 999, imagem_url: 'https://images.unsplash.com/photo-1627163439134-7a8c47e08238?auto=format&fit=crop&q=80&w=800' },
-                      { nome: '10000 Robux (+10000 Bônus)', descricao: 'Pacote Supremo! O melhor valor por Robux do mercado.', valor: 399.90, categoria: 'Robux', quantidade: 999, imagem_url: 'https://images.unsplash.com/photo-1627163439134-7a8c47e08238?auto=format&fit=crop&q=80&w=800' }
+                      { nome: '45.000 ROBUX', descricao: '45.000 ROBUX (22.500 + 22.500 BÔNUS)', valor: 59.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                      { nome: '20.000 ROBUX', descricao: '20.000 ROBUX (10.000 + 10.000 BÔNUS)', valor: 39.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                      { nome: '9.000 ROBUX', descricao: '9.000 ROBUX (4.500 + 4.500 BÔNUS)', valor: 27.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                      { nome: '6.300 ROBUX', descricao: '6.300 ROBUX (3.150 + 3.150 BÔNUS)', valor: 24.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                      { nome: '3.400 ROBUX', descricao: '3.400 ROBUX (1.700 + 1.700 BÔNUS)', valor: 19.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' }
                     ];
                     await supabase.from('estoque').insert(pacotes);
                     fetchData();

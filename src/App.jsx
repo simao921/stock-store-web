@@ -148,18 +148,19 @@ function App() {
                 <Route path="/" element={
                   <div className="animate-in fade-in duration-700 w-full">
                     <Hero />
-                    <section id="catalog" className="max-w-7xl mx-auto px-8 py-40">
-                      <div className="mb-24 text-center">
-                        <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Pacotes Disponíveis</span>
-                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8 font-heading">
-                          <span className="text-white">ESCOLHA SEU</span> <span className="text-red-600">PACOTE</span>
+                    <section id="catalog" className="max-w-5xl mx-auto px-8 py-40">
+                      <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
+                        <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase font-heading">
+                          <span className="text-white">Pacotes com dobro de</span> <span className="text-red-600">Robux</span>
                         </h2>
-                        <div className="w-24 h-1 bg-red-600 rounded-full mx-auto" />
+                        <div className="px-6 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full">
+                          100% A MAIS
+                        </div>
                       </div>
                       {loading ? (
                         <div className="flex justify-center py-20 opacity-20"><RefreshCcw className="animate-spin text-red-600" /></div>
                       ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                        <div className="flex flex-col gap-4">
                           {products.map(p => <ProductCard key={p.id} product={p} />)}
                         </div>
                       )}

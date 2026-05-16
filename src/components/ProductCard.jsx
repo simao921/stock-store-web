@@ -6,70 +6,53 @@ import { ShoppingCart, Star, Zap } from 'lucide-react';
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
+  // Extrair o valor base para mostrar o "taxado" e o bônus
+  const totalAmountStr = product.nome.split(' ')[0].replace('.', '');
+  const totalAmount = parseInt(totalAmountStr);
+  const baseAmount = Math.floor(totalAmount / 2).toLocaleString('pt-BR');
+  const bonusAmount = baseAmount;
+  
+  // Preço falso para o efeito de desconto de 90%
+  const fakeOriginalPrice = (product.valor * 10).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -5 }}
-      className="group relative flex flex-col h-full bg-[#0a0a0a] border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 hover:border-red-600/20"
+      className="group relative flex flex-col md:flex-row items-center gap-6 bg-[#0a0a0a] border border-white/5 rounded-2xl p-6 transition-all duration-300 hover:border-red-600/20 hover:bg-white/[0.01]"
     >
-      {/* Imagem */}
-      <div className="relative aspect-video overflow-hidden bg-black">
-        {product.imagem_url ? (
-          <img 
-            src={product.imagem_url} 
-            alt={product.nome} 
-            className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-emerald-950/5">
-            <Zap size={32} className="text-red-600/10" />
-          </div>
-        )}
-        
-        {/* Bonus Badge */}
-        <div className="absolute top-4 right-4">
-           <div className="px-3 py-1 rounded-lg bg-red-600 text-black text-[9px] font-black uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-              +100% BÔNUS
-           </div>
+      {/* Icone Robux */}
+      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+        <div className="w-6 h-6 border-2 border-white/20 rounded-lg flex items-center justify-center transform rotate-45">
+          <div className="w-2 h-2 bg-white/40 rounded-sm" />
         </div>
       </div>
 
-      {/* Conteúdo */}
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex items-center gap-2 mb-4">
-           <div className="flex items-center gap-0.5 text-red-600">
-              {[...Array(5)].map((_, i) => <Star key={i} size={8} fill="currentColor" />)}
-           </div>
-           <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">Entrega Imediata</span>
+      {/* Quantidades */}
+      <div className="flex-grow flex flex-col md:flex-row items-center gap-4 md:gap-10">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl font-black text-white font-heading">{product.nome.split(' ')[0]}</span>
+          <span className="text-lg font-bold text-white/20 line-through decoration-red-600/50">{baseAmount}</span>
         </div>
-
-        <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-2 group-hover:text-red-500 transition-colors font-heading leading-tight">
-          {product.nome}
-        </h3>
         
-        <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest leading-relaxed mb-6">
-          {product.descricao || 'Adquira agora com bônus acumulativo.'}
-        </p>
-
-        {/* Footer */}
-        <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between gap-4">
-           <div className="flex flex-col">
-              <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-1">Preço</span>
-              <div className="text-2xl font-black font-heading text-white">
-                 <span className="text-xs text-red-600 mr-1">R$</span>
-                 {product.valor.toFixed(2)}
-              </div>
-           </div>
-           
-           <button 
-             onClick={() => navigate(`/produto/${product.id}`)}
-             className="flex-grow py-4 rounded-xl bg-red-600 text-black font-black uppercase tracking-widest text-[10px] hover:bg-red-500 transition-all shadow-lg shadow-red-600/5 flex items-center justify-center gap-2"
-           >
-              COMPRAR <ShoppingCart size={14} />
-           </button>
+        <div className="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest text-white/40">
+          {bonusAmount} a mais
         </div>
+      </div>
+
+      {/* Preço e Botão */}
+      <div className="flex items-center gap-8">
+        <div className="flex flex-col items-end">
+          <span className="text-[10px] font-bold text-white/10 line-through">R$ {fakeOriginalPrice}</span>
+        </div>
+        
+        <button 
+          onClick={() => navigate(`/produto/${product.id}`)}
+          className="px-10 py-4 rounded-xl bg-red-600 text-white font-black uppercase tracking-widest text-xs hover:bg-red-500 transition-all shadow-lg shadow-red-600/10 min-w-[160px]"
+        >
+          R$ {product.valor.toFixed(2).replace('.', ',')}
+        </button>
       </div>
     </motion.div>
   );
