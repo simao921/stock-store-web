@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import BackgroundEffects from './components/BackgroundEffects';
 
-import { RefreshCcw } from 'lucide-react';
+import { RefreshCcw, Package } from 'lucide-react';
 
 // Lazy load pages for performance
 const CheckoutPage = lazy(() => import('./components/CheckoutPage'));
