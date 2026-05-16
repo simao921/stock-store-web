@@ -59,7 +59,13 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={handleClose} className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]" />
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            onClick={() => paymentStep === 1 && handleClose()} 
+            className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] ${paymentStep === 2 ? 'cursor-default' : 'cursor-pointer'}`} 
+          />
           <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', damping: 25 }} className="fixed right-0 top-0 h-full w-full max-w-md bg-[#050505] border-l border-white/5 shadow-2xl z-[101] flex flex-col">
             
             {/* Header */}
@@ -132,7 +138,7 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
                   <div className="w-full p-6 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col gap-4">
                     <div className="text-[9px] font-black text-red-600 uppercase tracking-[0.2em] text-left">PIX Copia e Cola</div>
                     <div className="flex items-center justify-between gap-4">
-                      <span className="text-[10px] font-bold text-white/40 truncate text-left">{pixPayload}</span>
+                      <span className="text-[10px] font-bold text-white/40 break-all text-left line-clamp-2">{pixPayload}</span>
                       <button onClick={copyPix} className="p-3 rounded-xl bg-white/5 hover:bg-red-600 hover:text-white transition-all text-white/40 flex-shrink-0">
                         <Copy size={16} />
                       </button>
