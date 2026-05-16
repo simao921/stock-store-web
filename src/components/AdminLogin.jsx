@@ -160,7 +160,6 @@ const AdminLogin = ({ onLogin, onClose }) => {
         </div>
       </motion.div>
     </div>
-iv>
   );
 };
 
