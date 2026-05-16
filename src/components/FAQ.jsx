@@ -6,11 +6,9 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
-    { q: "Como recebo meu script após a compra?", a: "Após a confirmação do pagamento, você deve abrir um ticket em nosso Discord enviando o ID do seu pedido. Nossa equipe fará a entrega imediata." },
-    { q: "Os métodos são seguros e anti-ban?", a: "Sim, todos os nossos métodos passam por testes rigorosos de detecção antes de serem disponibilizados no catálogo." },
-    { q: "Posso solicitar reembolso?", a: "Oferecemos reembolso total caso o produto apresente defeito técnico que não possamos resolver em até 48 horas." },
-    { q: "Quais as formas de pagamento?", a: "Atualmente aceitamos PIX e Cartão via suporte manual no Discord." },
-    { q: "Como funcionam as atualizações?", a: "Todos os clientes têm acesso vitalício às atualizações do produto adquirido através da nossa comunidade." },
+    { q: "Como a entrega funciona?", a: "Este layout está pronto para conectar ao seu checkout. A tela pede apenas o usuário público e deve ser ligada a um fluxo autorizado antes de publicar." },
+    { q: "Precisa informar senha?", a: "Não. A página foi desenhada para nunca solicitar senha, código de segurança ou dados privados da conta." },
+    { q: "Os preços já têm desconto?", a: "Sim. Os botões exibem o preço final com até 90% de desconto e os pacotes mostram 100% a mais de Robux." },
   ];
 
   return (
