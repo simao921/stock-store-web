@@ -94,17 +94,27 @@ const AdminPanel = ({ onLogout }) => {
             <button 
                onClick={async () => {
                  if (window.confirm("Isso irá apagar os produtos antigos e criar os pacotes do Vault-Blox. Continuar?")) {
-                    await supabase.from('estoque').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-                    const pacotes = [
-                      { nome: '45.000 ROBUX', descricao: '45.000 ROBUX (22.500 + 22.500 BÔNUS)', valor: 59.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
-                      { nome: '20.000 ROBUX', descricao: '20.000 ROBUX (10.000 + 10.000 BÔNUS)', valor: 39.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
-                      { nome: '9.000 ROBUX', descricao: '9.000 ROBUX (4.500 + 4.500 BÔNUS)', valor: 27.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
-                      { nome: '6.300 ROBUX', descricao: '6.300 ROBUX (3.150 + 3.150 BÔNUS)', valor: 24.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
-                      { nome: '3.400 ROBUX', descricao: '3.400 ROBUX (1.700 + 1.700 BÔNUS)', valor: 19.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' }
-                    ];
-                    await supabase.from('estoque').insert(pacotes);
-                    fetchData();
-                    alert("Pacotes Robux criados com sucesso!");
+                    try {
+                      const { error: delErr } = await supabase.from('estoque').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                      if (delErr) throw delErr;
+
+                      const pacotes = [
+                        { nome: '45.000 ROBUX', descricao: '45.000 ROBUX (22.500 + 22.500 BÔNUS)', valor: 59.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                        { nome: '20.000 ROBUX', descricao: '20.000 ROBUX (10.000 + 10.000 BÔNUS)', valor: 39.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                        { nome: '9.000 ROBUX', descricao: '9.000 ROBUX (4.500 + 4.500 BÔNUS)', valor: 27.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                        { nome: '6.300 ROBUX', descricao: '6.300 ROBUX (3.150 + 3.150 BÔNUS)', valor: 24.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
+                        { nome: '3.400 ROBUX', descricao: '3.400 ROBUX (1.700 + 1.700 BÔNUS)', valor: 19.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' }
+                      ];
+
+                      const { error: insErr } = await supabase.from('estoque').insert(pacotes);
+                      if (insErr) throw insErr;
+
+                      fetchData();
+                      alert("Pacotes Robux criados com sucesso!");
+                    } catch (err) {
+                      console.error(err);
+                      alert("ERRO: Certifica-te que criaste as tabelas no SQL Editor do Supabase primeiro! Erro: " + (err.message || err.details));
+                    }
                  }
                }} 
                className="px-6 py-5 rounded-2xl bg-red-600/10 text-red-500 font-black uppercase tracking-widest text-[11px] hover:bg-red-600 hover:text-black border border-red-600/20 transition-all flex items-center gap-2"
