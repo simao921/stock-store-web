@@ -35,11 +35,11 @@ const Navbar = ({ cartCount, onOpenCart }) => {
               whileHover={{ scale: 1.05 }}
               className="relative w-10 h-10"
             >
-              <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 rounded-full bg-red-600/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               <img src="/assets/logo.png" alt="WISEY" className="w-full h-full object-cover relative rounded-full" />
             </motion.div>
             <span className="font-black text-xl tracking-tighter uppercase font-heading text-white">
-              WISEY<span className="text-emerald-500">STORE</span>
+              WISEY<span className="text-red-600">STORE</span>
             </span>
           </Link>
 
@@ -52,7 +52,7 @@ const Navbar = ({ cartCount, onOpenCart }) => {
                   key={link.name}
                   to={link.path}
                   className="relative text-[10px] font-bold uppercase tracking-[0.2em] transition-all"
-                  style={{ color: active ? '#10b981' : 'rgba(255,255,255,0.4)' }}
+                  style={{ color: active ? '#dc2626' : 'rgba(255,255,255,0.4)' }}
                 >
                   <span className="hover:text-white transition-colors">{link.name}</span>
                 </Link>
@@ -66,13 +66,13 @@ const Navbar = ({ cartCount, onOpenCart }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onOpenCart}
-              className="relative p-3 rounded-xl transition-all bg-emerald-500/5 border border-emerald-500/10 hover:border-emerald-500/40"
+              className="relative p-3 rounded-xl transition-all bg-red-600/5 border border-red-600/10 hover:border-red-600/40"
             >
-              <ShoppingBag size={18} className="text-emerald-400" />
+              <ShoppingBag size={18} className="text-red-500" />
               {cartCount > 0 && (
                 <motion.span
                   initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-emerald-500 text-black text-[9px] font-black flex items-center justify-center rounded-full"
+                  className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-600 text-black text-[9px] font-black flex items-center justify-center rounded-full"
                 >
                   {cartCount}
                 </motion.span>
@@ -82,7 +82,7 @@ const Navbar = ({ cartCount, onOpenCart }) => {
             <motion.a
               href="#"
               whileHover={{ scale: 1.02 }}
-              className="hidden sm:flex px-6 py-2.5 bg-emerald-500 text-black text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/10"
+              className="hidden sm:flex px-6 py-2.5 bg-red-600 text-black text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-red-500 transition-all shadow-lg shadow-red-600/10"
             >
               Discord
             </motion.a>
@@ -113,7 +113,7 @@ const Navbar = ({ cartCount, onOpenCart }) => {
                   className="py-4 px-5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all"
                   style={{ 
                     background: location.pathname === link.path ? 'rgba(16,185,129,0.1)' : 'transparent',
-                    color: location.pathname === link.path ? '#10b981' : 'rgba(255,255,255,0.4)' 
+                    color: location.pathname === link.path ? '#dc2626' : 'rgba(255,255,255,0.4)' 
                   }}
                 >
                   {link.name}

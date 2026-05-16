@@ -73,7 +73,7 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
                    <button onClick={applyCoupon} className="px-6 rounded-xl bg-white text-black font-black uppercase text-[10px] hover:bg-purple-500 hover:text-white transition-all">Aplicar</button>
                 </div>
                 {appliedCoupon && (
-                   <div className="flex items-center gap-2 text-[10px] font-black text-emerald-400 uppercase tracking-widest">
+                   <div className="flex items-center gap-2 text-[10px] font-black text-red-500 uppercase tracking-widest">
                       <CheckCircle2 size={12} /> Cupom {appliedCoupon} Ativado
                    </div>
                 )}
@@ -86,7 +86,7 @@ const CartSidebar = ({ isOpen, onClose, cart, removeFromCart, updateQuantity, co
                   <span>R$ {total.toFixed(2)}</span>
                 </div>
                 {discount > 0 && (
-                   <div className="flex justify-between text-[10px] font-black text-emerald-400 uppercase tracking-widest">
+                   <div className="flex justify-between text-[10px] font-black text-red-500 uppercase tracking-widest">
                       <span>Desconto</span>
                       <span>-R$ {(total * discount).toFixed(2)}</span>
                    </div>

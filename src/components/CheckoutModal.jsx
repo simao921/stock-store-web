@@ -145,9 +145,9 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
             key="success"
             initial={{ opacity: 0, scale: 0.8, rotateX: 30 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-            className="text-center p-12 bg-[#0c0c0f] border border-emerald-500/20 rounded-[4rem] max-w-md w-full shadow-[0_0_150px_rgba(16,185,129,0.1)]"
+            className="text-center p-12 bg-[#0c0c0f] border border-red-600/20 rounded-[4rem] max-w-md w-full shadow-[0_0_150px_rgba(16,185,129,0.1)]"
           >
-            <div className="w-24 h-24 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-400 mx-auto mb-10 border border-emerald-500/20 shadow-[0_0_40px_rgba(16,185,129,0.2)]">
+            <div className="w-24 h-24 bg-red-600/10 rounded-full flex items-center justify-center text-red-500 mx-auto mb-10 border border-red-600/20 shadow-[0_0_40px_rgba(16,185,129,0.2)]">
                <motion.div
                  initial={{ scale: 0 }}
                  animate={{ scale: 1 }}
@@ -163,7 +163,7 @@ const CheckoutModal = ({ isOpen, onClose, cart, total, finalTotal, discordNick, 
             </p>
 
             <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 mb-10">
-               <div className="flex items-center justify-center gap-3 text-emerald-400 text-xs font-black uppercase tracking-widest">
+               <div className="flex items-center justify-center gap-3 text-red-500 text-xs font-black uppercase tracking-widest">
                   <Sparkles size={16} /> Pedido Enviado para Fila
                </div>
                <p className="text-[10px] text-white/20 mt-2 uppercase">Aguardando entrega no Discord</p>

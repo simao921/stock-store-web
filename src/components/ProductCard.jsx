@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
-      className="group relative flex flex-col h-full bg-[#0a0a0a] border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 hover:border-emerald-500/20"
+      className="group relative flex flex-col h-full bg-[#0a0a0a] border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 hover:border-red-600/20"
     >
       {/* Imagem */}
       <div className="relative aspect-video overflow-hidden bg-black">
@@ -24,13 +24,13 @@ const ProductCard = ({ product }) => {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-emerald-950/5">
-            <Zap size={32} className="text-emerald-500/10" />
+            <Zap size={32} className="text-red-600/10" />
           </div>
         )}
         
         {/* Bonus Badge */}
         <div className="absolute top-4 right-4">
-           <div className="px-3 py-1 rounded-lg bg-emerald-500 text-black text-[9px] font-black uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+           <div className="px-3 py-1 rounded-lg bg-red-600 text-black text-[9px] font-black uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.3)]">
               +100% BÔNUS
            </div>
         </div>
@@ -39,13 +39,13 @@ const ProductCard = ({ product }) => {
       {/* Conteúdo */}
       <div className="p-6 flex flex-col flex-grow">
         <div className="flex items-center gap-2 mb-4">
-           <div className="flex items-center gap-0.5 text-emerald-500">
+           <div className="flex items-center gap-0.5 text-red-600">
               {[...Array(5)].map((_, i) => <Star key={i} size={8} fill="currentColor" />)}
            </div>
            <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest">Entrega Imediata</span>
         </div>
 
-        <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-2 group-hover:text-emerald-400 transition-colors font-heading leading-tight">
+        <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-2 group-hover:text-red-500 transition-colors font-heading leading-tight">
           {product.nome}
         </h3>
         
@@ -58,14 +58,14 @@ const ProductCard = ({ product }) => {
            <div className="flex flex-col">
               <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest mb-1">Preço</span>
               <div className="text-2xl font-black font-heading text-white">
-                 <span className="text-xs text-emerald-500 mr-1">R$</span>
+                 <span className="text-xs text-red-600 mr-1">R$</span>
                  {product.valor.toFixed(2)}
               </div>
            </div>
            
            <button 
              onClick={() => navigate(`/produto/${product.id}`)}
-             className="flex-grow py-4 rounded-xl bg-emerald-500 text-black font-black uppercase tracking-widest text-[10px] hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/5 flex items-center justify-center gap-2"
+             className="flex-grow py-4 rounded-xl bg-red-600 text-black font-black uppercase tracking-widest text-[10px] hover:bg-red-500 transition-all shadow-lg shadow-red-600/5 flex items-center justify-center gap-2"
            >
               COMPRAR <ShoppingCart size={14} />
            </button>

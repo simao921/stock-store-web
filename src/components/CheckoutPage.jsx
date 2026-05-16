@@ -104,7 +104,7 @@ const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const inputCls = "w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:border-emerald-500 outline-none font-bold transition-all text-white";
+  const inputCls = "w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:border-red-600 outline-none font-bold transition-all text-white";
 
   return (
     <div className="min-h-screen bg-black pt-32 pb-20 px-6 relative overflow-hidden">
@@ -114,7 +114,7 @@ const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
         <div className="flex items-center justify-between mb-16 px-4">
            {[1, 2].map((s) => (
               <div key={s} className="flex items-center gap-4">
-                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition-all ${step >= s ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20' : 'bg-white/5 text-white/20'}`}>
+                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition-all ${step >= s ? 'bg-red-600 text-black shadow-lg shadow-red-600/20' : 'bg-white/5 text-white/20'}`}>
                     {step > s ? <CheckCircle2 size={20} /> : s}
                  </div>
                  <span className={`text-[10px] font-black uppercase tracking-widest ${step >= s ? 'text-white' : 'text-white/20'}`}>
@@ -153,14 +153,14 @@ const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
 
                     <div className="pt-6 space-y-4">
                        <label className="flex items-center gap-4 cursor-pointer group">
-                          <input required type="checkbox" className="w-5 h-5 rounded-lg bg-white/5 border-white/10 checked:bg-emerald-500 transition-all cursor-pointer" checked={formData.termos} onChange={e => setFormData({...formData, termos: e.target.checked})} />
+                          <input required type="checkbox" className="w-5 h-5 rounded-lg bg-white/5 border-white/10 checked:bg-red-600 transition-all cursor-pointer" checked={formData.termos} onChange={e => setFormData({...formData, termos: e.target.checked})} />
                           <span className="text-[11px] text-white/40 font-medium leading-tight group-hover:text-white transition-colors">
-                             Li e aceito os <Link to="/policies" className="text-emerald-400 underline">Termos de Uso</Link>.
+                             Li e aceito os <Link to="/policies" className="text-red-500 underline">Termos de Uso</Link>.
                           </span>
                        </label>
                     </div>
 
-                    <button type="submit" disabled={loading} className="w-full py-6 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-emerald-500 hover:text-white transition-all shadow-xl flex items-center justify-center gap-3 mt-10">
+                    <button type="submit" disabled={loading} className="w-full py-6 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-red-600 hover:text-white transition-all shadow-xl flex items-center justify-center gap-3 mt-10">
                        {loading ? 'Processando...' : 'GERAR PAGAMENTO'} <ArrowRight size={18} />
                     </button>
                  </form>
@@ -174,7 +174,7 @@ const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
                     <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">Escaneie o código ou copie o código abaixo</p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-3xl inline-block mb-10 shadow-[0_0_50px_rgba(16,185,129,0.1)] border-4 border-emerald-500/20">
+                  <div className="bg-white p-6 rounded-3xl inline-block mb-10 shadow-[0_0_50px_rgba(16,185,129,0.1)] border-4 border-red-600/20">
                     <QRCodeSVG value={pixCode} size={200} level="H" includeMargin={false} />
                   </div>
 
@@ -186,15 +186,15 @@ const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
                        </div>
                        <div className="flex justify-between items-center">
                           <span className="text-[10px] font-black uppercase tracking-widest text-white/20">Valor Total</span>
-                          <span className="text-xl font-black text-emerald-400">R$ {finalTotal.toFixed(2)}</span>
+                          <span className="text-xl font-black text-red-500">R$ {finalTotal.toFixed(2)}</span>
                        </div>
                     </div>
 
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-white/20 uppercase tracking-widest block text-left ml-4">Código PIX (Copia e Cola)</label>
                       <div className="relative group">
-                        <input readOnly value={pixCode} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-[10px] text-white/40 font-mono outline-none group-hover:border-emerald-500/30 transition-all" />
-                        <button onClick={copyToClipboard} className="absolute right-3 top-1/2 -translate-y-1/2 p-3 bg-emerald-500 text-black rounded-xl hover:bg-emerald-400 transition-all shadow-lg">
+                        <input readOnly value={pixCode} className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-[10px] text-white/40 font-mono outline-none group-hover:border-red-600/30 transition-all" />
+                        <button onClick={copyToClipboard} className="absolute right-3 top-1/2 -translate-y-1/2 p-3 bg-red-600 text-black rounded-xl hover:bg-red-500 transition-all shadow-lg">
                           {copied ? <Check size={16} /> : <Copy size={16} />}
                         </button>
                       </div>
@@ -205,10 +205,10 @@ const CheckoutPage = ({ cart, finalTotal, discordNick, onOrderComplete }) => {
                         Após o pagamento, o produto será enviado automaticamente para o seu email e vinculado ao seu Nick do Discord.
                       </p>
                       <div className="flex gap-4">
-                        <a href="https://discord.gg/xqCtsTh9" target="_blank" rel="noopener noreferrer" className="flex-1 py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-[10px] hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all flex items-center justify-center gap-2">
+                        <a href="https://discord.gg/xqCtsTh9" target="_blank" rel="noopener noreferrer" className="flex-1 py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-[10px] hover:bg-red-600/10 hover:border-red-600/30 transition-all flex items-center justify-center gap-2">
                            SUPORTE <MessageCircle size={16} />
                         </a>
-                        <Link to="/" onClick={onOrderComplete} className="flex-1 py-5 rounded-2xl bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center">
+                        <Link to="/" onClick={onOrderComplete} className="flex-1 py-5 rounded-2xl bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-red-600 hover:text-white transition-all flex items-center justify-center">
                            CONCLUIR
                         </Link>
                       </div>

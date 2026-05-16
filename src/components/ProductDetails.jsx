@@ -100,7 +100,7 @@ const ProductDetails = ({ onAddToCart }) => {
                    <ShoppingCart size={20} /> ADICIONAR AO CARRINHO
                 </button>
                 <div className="px-8 py-6 rounded-3xl bg-white/5 border border-white/10 flex items-center gap-4">
-                   <TrendingUp className="text-emerald-400" size={20} />
+                   <TrendingUp className="text-red-500" size={20} />
                    <div>
                       <div className="text-white font-black text-sm">+200</div>
                       <div className="text-[9px] font-bold text-white/20 uppercase tracking-widest">Vendas</div>
