@@ -159,7 +159,7 @@ function App() {
                       </div>
                       {loading ? (
                         <div className="flex justify-center py-20 opacity-20"><RefreshCcw className="animate-spin text-red-600" /></div>
-                      ) : products.length === 0 ? (
+                      ) : (!products || products.length === 0) ? (
                         <div className="py-40 flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-[3rem] opacity-20 text-center">
                           <Package size={64} className="mb-4 text-red-600" />
                           <p className="font-heading font-black uppercase tracking-[0.3em] text-white">Catálogo em Atualização</p>

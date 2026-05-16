@@ -33,13 +33,19 @@ const AdminPanel = ({ onLogout }) => {
 
   const fetchData = async () => {
     setLoading(true);
-    const { data: prod }  = await supabase.from('estoque').select('*').order('created_at', { ascending: false });
-    const { data: ord }   = await supabase.from('pedidos').select('*, estoque(nome,valor)').order('created_at', { ascending: false });
-    const { data: cup }   = await supabase.from('cupons').select('*').order('created_at', { ascending: false });
-    if (prod) setProducts(prod);
-    if (ord)  setOrders(ord);
-    if (cup)  setCoupons(cup);
-    setLoading(false);
+    try {
+      const { data: prod }  = await supabase.from('estoque').select('*').order('created_at', { ascending: false });
+      const { data: ord }   = await supabase.from('pedidos').select('*, estoque(nome,valor)').order('created_at', { ascending: false });
+      const { data: cup }   = await supabase.from('cupons').select('*').order('created_at', { ascending: false });
+      
+      setProducts(prod || []);
+      setOrders(ord || []);
+      setCoupons(cup || []);
+    } catch (e) {
+      console.error("Erro ao carregar dados:", e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const deleteProduct = async (id) => {
@@ -77,7 +83,7 @@ const AdminPanel = ({ onLogout }) => {
     fetchData();
   };
 
-  const totalRevenue = orders.filter(o => o.status === 'entregue' || o.status === 'pago').reduce((s, o) => s + (o.valor_pago || 0), 0);
+  const totalRevenue = (orders || []).filter(o => o.status === 'entregue' || o.status === 'pago').reduce((s, o) => s + (o.valor_pago || 0), 0);
 
   return (
     <div className="w-full min-h-screen bg-black text-white pt-32 pb-20 px-8">
