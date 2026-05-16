@@ -104,17 +104,22 @@ const AdminPanel = ({ onLogout }) => {
                  console.log("Iniciando geração de pacotes...");
                  if (window.confirm("Deseja apagar os produtos antigos e criar os novos pacotes Vault-Blox?")) {
                     try {
-                      // Verificar se o supabase está configurado
+                      // 1. Verificar Configuração
                       if (!supabase.supabaseUrl || supabase.supabaseUrl.includes("undefined")) {
-                        throw new Error("Configuração do Supabase ausente! Verifica as variáveis de ambiente na Vercel.");
+                        alert("ERRO DE CONFIGURAÇÃO: As chaves do Supabase não foram encontradas. Verifica a Vercel!");
+                        return;
                       }
 
+                      // 2. Limpar Produtos Antigos
+                      console.log("Limpando estoque...");
                       const { error: delErr } = await supabase.from('estoque').delete().neq('id', '00000000-0000-0000-0000-000000000000');
                       if (delErr) {
-                         console.error("Erro no Delete:", delErr);
+                         alert(`ERRO AO LIMPAR: O Supabase diz: ${delErr.message}. (Dica: Criaste a tabela estoque no SQL Editor?)`);
                          throw delErr;
                       }
 
+                      // 3. Criar Novos Pacotes
+                      console.log("Inserindo novos pacotes...");
                       const pacotes = [
                         { nome: '45.000 ROBUX', descricao: '45.000 ROBUX (22.500 + 22.500 BÔNUS)', valor: 59.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
                         { nome: '20.000 ROBUX', descricao: '20.000 ROBUX (10.000 + 10.000 BÔNUS)', valor: 39.90, categoria: 'ROBUX', quantidade: 999, imagem_url: 'https://i.imgur.com/8QO9f9H.png' },
@@ -125,15 +130,16 @@ const AdminPanel = ({ onLogout }) => {
 
                       const { error: insErr } = await supabase.from('estoque').insert(pacotes);
                       if (insErr) {
-                         console.error("Erro no Insert:", insErr);
+                         alert(`ERRO AO GERAR: O Supabase diz: ${insErr.message}`);
                          throw insErr;
                       }
 
+                      // 4. Atualizar Visual
+                      console.log("Sucesso! Atualizando lista...");
                       await fetchData();
-                      alert("Pacotes Robux criados com sucesso!");
+                      alert("BOA! Pacotes Vault-Blox criados com sucesso! Já podes ver no site.");
                     } catch (err) {
-                      console.error("Erro Catastrófico:", err);
-                      alert("ERRO: " + (err.message || "Falha ao conectar ao Supabase. Verifica se as tabelas foram criadas."));
+                      console.error("Erro Fatal no Admin:", err);
                     }
                  }
                }} 
