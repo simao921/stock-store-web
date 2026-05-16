@@ -167,85 +167,113 @@ const AdminPanel = ({ onLogout }) => {
 
         <AnimatePresence mode="wait">
           {activeTab === 'inventory' && (
-            <motion.div key="inv" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {products.map(p => (
-                <div key={p.id} className="glass-card p-8 group border-white/5 hover:border-red-600/30 transition-all">
-                   <div className="aspect-video rounded-3xl overflow-hidden mb-8 bg-black border border-white/5">
-                      {p.imagem_url ? <img src={p.imagem_url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-1000" /> : <div className="w-full h-full flex items-center justify-center opacity-10"><Package size={48} /></div>}
-                   </div>
-                   <div className="flex justify-between items-start mb-8">
-                      <div>
-                        <h3 className="text-lg font-black uppercase tracking-tight text-white mb-2">{p.nome}</h3>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-red-600">{p.categoria}</span>
-                      </div>
-                      <span className="text-2xl font-black font-heading text-white">R${p.valor.toFixed(2)}</span>
-                   </div>
-                   <div className="flex gap-3">
-                      <button onClick={() => { setEditingProduct(p); setNewProduct(p); setIsModalOpen(true); }} className="flex-grow py-4 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-red-600 hover:text-white transition-all"><Edit2 size={14}/> Editar</button>
-                      <button onClick={() => deleteProduct(p.id)} className="px-5 py-4 rounded-xl bg-red-500/5 border border-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"><Trash2 size={16}/></button>
-                   </div>
+            <motion.div key="inv" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+              {products.length === 0 ? (
+                <div className="py-40 flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-[3rem] opacity-20">
+                  <Package size={64} className="mb-4" />
+                  <p className="font-heading font-black uppercase tracking-[0.3em]">Estoque Vazio</p>
+                  <p className="text-[10px] mt-2">Clica em "Gerar Pacotes Vault" para começar</p>
                 </div>
-              ))}
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                  {products.map(p => (
+                    <div key={p.id} className="glass-card p-8 group border-white/5 hover:border-red-600/30 transition-all">
+                       <div className="aspect-video rounded-3xl overflow-hidden mb-8 bg-black border border-white/5">
+                          {p.imagem_url ? <img src={p.imagem_url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-1000" /> : <div className="w-full h-full flex items-center justify-center opacity-10"><Package size={48} /></div>}
+                       </div>
+                       <div className="flex justify-between items-start mb-8">
+                          <div>
+                            <h3 className="text-lg font-black uppercase tracking-tight text-white mb-2">{p.nome}</h3>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-red-600">{p.categoria}</span>
+                          </div>
+                          <span className="text-2xl font-black font-heading text-white">R${p.valor.toFixed(2)}</span>
+                       </div>
+                       <div className="flex gap-3">
+                          <button onClick={() => { setEditingProduct(p); setNewProduct(p); setIsModalOpen(true); }} className="flex-grow py-4 rounded-xl bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-red-600 hover:text-white transition-all"><Edit2 size={14}/> Editar</button>
+                          <button onClick={() => deleteProduct(p.id)} className="px-5 py-4 rounded-xl bg-red-500/5 border border-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"><Trash2 size={16}/></button>
+                       </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </motion.div>
           )}
 
           {activeTab === 'coupons' && (
-            <motion.div key="cup" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="glass-card overflow-hidden border-white/5">
-               <table className="w-full text-left border-collapse">
-                  <thead className="bg-white/[0.03] text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
-                     <tr>
-                        <th className="px-12 py-8">Código</th>
-                        <th className="px-12 py-8">Desconto</th>
-                        <th className="px-12 py-8">Status</th>
-                        <th className="px-12 py-8 text-right">Ações</th>
-                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                     {coupons.map(c => (
-                        <tr key={c.id} className="text-xs hover:bg-white/[0.01] transition-all">
-                           <td className="px-12 py-8 font-black uppercase text-red-500 tracking-widest">{c.codigo}</td>
-                           <td className="px-12 py-8 font-black text-white text-lg">{(c.desconto * 100).toFixed(0)}%</td>
-                           <td className="px-12 py-8">
-                              <span className={`px-5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${c.ativo ? 'bg-red-600/10 text-red-500 border border-red-600/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-                                 {c.ativo ? 'Ativo' : 'Inativo'}
-                              </span>
-                           </td>
-                           <td className="px-12 py-8 text-right space-x-6">
-                              <button onClick={() => { setEditingCoupon(c); setNewCoupon(c); setIsCouponModalOpen(true); }} className="text-white/20 hover:text-white transition-colors"><Edit2 size={16}/></button>
-                              <button onClick={() => deleteCoupon(c.id)} className="text-white/20 hover:text-red-500 transition-colors"><Trash2 size={16}/></button>
-                           </td>
-                        </tr>
-                     ))}
-                  </tbody>
-               </table>
+            <motion.div key="cup" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+              {coupons.length === 0 ? (
+                <div className="py-40 flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-[3rem] opacity-20">
+                  <Ticket size={64} className="mb-4" />
+                  <p className="font-heading font-black uppercase tracking-[0.3em]">Sem Cupões</p>
+                </div>
+              ) : (
+                <div className="glass-card overflow-hidden border-white/5">
+                   <table className="w-full text-left border-collapse">
+                      <thead className="bg-white/[0.03] text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+                         <tr>
+                            <th className="px-12 py-8">Código</th>
+                            <th className="px-12 py-8">Desconto</th>
+                            <th className="px-12 py-8">Status</th>
+                            <th className="px-12 py-8 text-right">Ações</th>
+                         </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5">
+                         {coupons.map(c => (
+                            <tr key={c.id} className="text-xs hover:bg-white/[0.01] transition-all">
+                               <td className="px-12 py-8 font-black uppercase text-red-500 tracking-widest">{c.codigo}</td>
+                               <td className="px-12 py-8 font-black text-white text-lg">{(c.desconto * 100).toFixed(0)}%</td>
+                               <td className="px-12 py-8">
+                                  <span className={`px-5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${c.ativo ? 'bg-red-600/10 text-red-500 border border-red-600/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                                     {c.ativo ? 'Ativo' : 'Inativo'}
+                                  </span>
+                               </td>
+                               <td className="px-12 py-8 text-right space-x-6">
+                                  <button onClick={() => { setEditingCoupon(c); setNewCoupon(c); setIsCouponModalOpen(true); }} className="text-white/20 hover:text-white transition-colors"><Edit2 size={16}/></button>
+                                  <button onClick={() => deleteCoupon(c.id)} className="text-white/20 hover:text-red-500 transition-colors"><Trash2 size={16}/></button>
+                               </td>
+                            </tr>
+                         ))}
+                      </tbody>
+                   </table>
+                </div>
+              )}
             </motion.div>
           )}
 
           {activeTab === 'orders' && (
-            <motion.div key="ord" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="glass-card overflow-hidden border-white/5">
-               <table className="w-full text-left border-collapse">
-                  <thead className="bg-white/[0.03] text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
-                     <tr><th className="px-12 py-8">Cliente</th><th className="px-12 py-8">Produto</th><th className="px-12 py-8">Valor</th><th className="px-12 py-8 text-center">Status</th></tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                     {orders.map(o => (
-                        <tr key={o.id} className="text-xs hover:bg-white/[0.01] transition-all">
-                           <td className="px-12 py-8 font-black uppercase text-white/60">{o.discord_nick}</td>
-                           <td className="px-12 py-8 font-bold text-white/40 uppercase">{o.estoque?.nome || 'Removido'}</td>
-                           <td className="px-12 py-8 text-white font-black text-base">R${(o.valor_pago || 0).toFixed(2)}</td>
-                           <td className="px-12 py-8">
-                              <div className="flex justify-center">
-                                 <select value={o.status} onChange={(e) => updateOrderStatus(o.id, e.target.value)} className="bg-white/5 border border-white/10 rounded-full px-6 py-2.5 text-[9px] font-black uppercase tracking-widest text-red-500 outline-none cursor-pointer hover:border-red-600/50 transition-all">
-                                    <option value="pendente">Pendente</option>
-                                    <option value="pago">Pago</option>
-                                    <option value="entregue">Entregue</option>
-                                 </select>
-                              </div>
-                           </td>
-                        </tr>
-                     ))}
-                  </tbody>
-               </table>
+            <motion.div key="ord" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+              {orders.length === 0 ? (
+                <div className="py-40 flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-[3rem] opacity-20">
+                  <ShoppingCart size={64} className="mb-4" />
+                  <p className="font-heading font-black uppercase tracking-[0.3em]">Nenhuma Venda</p>
+                </div>
+              ) : (
+                <div className="glass-card overflow-hidden border-white/5">
+                   <table className="w-full text-left border-collapse">
+                      <thead className="bg-white/[0.03] text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+                         <tr><th className="px-12 py-8">Cliente</th><th className="px-12 py-8">Produto</th><th className="px-12 py-8">Valor</th><th className="px-12 py-8 text-center">Status</th></tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5">
+                         {orders.map(o => (
+                            <tr key={o.id} className="text-xs hover:bg-white/[0.01] transition-all">
+                               <td className="px-12 py-8 font-black uppercase text-white/60">{o.discord_nick}</td>
+                               <td className="px-12 py-8 font-bold text-white/40 uppercase">{o.estoque?.nome || 'Removido'}</td>
+                               <td className="px-12 py-8 text-white font-black text-base">R${(o.valor_pago || 0).toFixed(2)}</td>
+                               <td className="px-12 py-8">
+                                  <div className="flex justify-center">
+                                     <select value={o.status} onChange={(e) => updateOrderStatus(o.id, e.target.value)} className="bg-white/5 border border-white/10 rounded-full px-6 py-2.5 text-[9px] font-black uppercase tracking-widest text-red-500 outline-none cursor-pointer hover:border-red-600/50 transition-all">
+                                        <option value="pendente">Pendente</option>
+                                        <option value="pago">Pago</option>
+                                        <option value="entregue">Entregue</option>
+                                     </select>
+                                  </div>
+                               </td>
+                            </tr>
+                         ))}
+                      </tbody>
+                   </table>
+                </div>
+              )}
             </motion.div>
           )}
 
