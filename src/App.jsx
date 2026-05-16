@@ -144,17 +144,17 @@ function App() {
                 <div className="animate-in fade-in duration-700 w-full">
                   <Hero />
                   <section id="catalog" className="max-w-7xl mx-auto px-8 py-40">
-                    <div className="mb-24 text-center md:text-left">
-                      <span className="text-purple-500 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Catálogo Premium</span>
+                    <div className="mb-24 text-center">
+                      <span className="text-emerald-500 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Pacotes Disponíveis</span>
                       <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8 font-heading">
-                        <span className="text-white">SOBERANIA</span> <span className="text-purple-600">DIGITAL</span>
+                        <span className="text-white">ESCOLHA SEU</span> <span className="text-emerald-500">PACOTE</span>
                       </h2>
-                      <div className="w-24 h-1 bg-purple-600 rounded-full mx-auto md:mx-0" />
+                      <div className="w-24 h-1 bg-emerald-500 rounded-full mx-auto" />
                     </div>
                     {loading ? (
-                      <div className="flex justify-center py-20 opacity-20"><RefreshCcw className="animate-spin" /></div>
+                      <div className="flex justify-center py-20 opacity-20"><RefreshCcw className="animate-spin text-emerald-500" /></div>
                     ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {products.map(p => <ProductCard key={p.id} product={p} />)}
                       </div>
                     )}
@@ -162,8 +162,6 @@ function App() {
                 </div>
               } />
               <Route path="/checkout" element={<CheckoutPage cart={cart} finalTotal={finalTotal} discordNick={discordNick} onOrderComplete={() => setCart([])} />} />
-              <Route path="/methods" element={<Methods />} />
-              <Route path="/community" element={<Community />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/support" element={<Support />} />
               <Route path="/produto/:id" element={<ProductDetails onAddToCart={addToCart} />} />

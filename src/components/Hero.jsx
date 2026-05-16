@@ -1,111 +1,94 @@
-import React, { useState } from 'react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ShoppingCart, ShieldCheck, Zap, Star } from 'lucide-react';
 
 const Hero = () => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const handleMouseMove = (e) => {
-    const { clientX, clientY } = e;
-    const moveX = clientX - window.innerWidth / 2;
-    const moveY = clientY - window.innerHeight / 2;
-    mouseX.set(moveX);
-    mouseY.set(moveY);
-  };
-
-  const x = useTransform(mouseX, [-500, 500], [-15, 15]);
-  const y = useTransform(mouseY, [-500, 500], [-15, 15]);
-
   return (
-    <section 
-      onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex items-center justify-center pt-48 pb-20 overflow-hidden bg-black"
-    >
-      
-      {/* PORTAL SYSTEM (DINÂMICO) */}
-      <motion.div style={{ x, y }} className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="relative w-[700px] h-[700px] flex items-center justify-center">
-          <div className="absolute inset-0 border border-purple-500/[0.03] rounded-full" />
-          <div className="absolute inset-[10%] border border-dashed border-purple-500/10 rounded-full animate-spin-slow" />
-          <div className="absolute inset-[25%] border-2 border-dashed border-purple-600/5 rounded-full animate-spin-reverse" />
-          <div className="absolute w-[600px] h-[600px] bg-purple-600/5 blur-[160px] rounded-full opacity-50" />
-        </div>
-      </motion.div>
+    <section className="relative pt-32 pb-20 overflow-hidden bg-black flex items-center justify-center min-h-[80vh]">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="flex flex-col items-center"
-        >
-          {/* Logo Redondo Interativo */}
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col items-center text-center">
+          
+          {/* Badge Principal */}
           <motion.div 
-            style={{ x: useTransform(x, v => v * 0.5), y: useTransform(y, v => v * 0.5) }}
-            className="mb-16 relative"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 px-5 py-2 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 backdrop-blur-sm flex items-center gap-3"
           >
-             <div className="relative w-44 h-44 md:w-56 md:h-56 rounded-full p-1 bg-gradient-to-tr from-purple-600 to-purple-400 animate-spin-slow">
-                <div className="absolute inset-0 rounded-full bg-black" />
-             </div>
-             
-             <div className="absolute inset-1 rounded-full bg-black border border-white/10 flex items-center justify-center p-8 shadow-[0_0_120px_rgba(168,85,247,0.3)] group overflow-hidden">
-                <img 
-                  src="/assets/logo.png" 
-                  alt="Wisey Logo" 
-                  className="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform duration-700 rounded-full"
-                />
-                {/* Efeito de Reflexo no Hover */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-             </div>
+            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]" />
+            <span className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em]">O MELHOR PREÇO DO MERCADO</span>
           </motion.div>
 
-          <div className="space-y-4 mb-16">
-             <motion.h1 
-               style={{ x: useTransform(x, v => v * -0.2), y: useTransform(y, v => v * -0.2) }}
-               className="text-7xl md:text-[10rem] font-black tracking-tighter uppercase leading-[0.75] font-heading"
-             >
-               <span className="block text-white">WISEY</span>
-               <span className="block text-purple-600 mt-4">STORE</span>
-             </motion.h1>
-          </div>
+          {/* Título Estilo Vault-Blox */}
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-5xl md:text-8xl font-black tracking-tight uppercase leading-[0.9] mb-8 font-heading"
+          >
+            <span className="text-white">COMPRE ROBUX COM</span><br />
+            <span className="text-emerald-500 drop-shadow-[0_0_30px_rgba(16,185,129,0.3)]">BÔNUS EXCLUSIVO</span>
+          </motion.h1>
 
-          <p className="text-white/30 text-base md:text-lg font-medium max-w-2xl mx-auto mb-20 uppercase tracking-[0.5em] leading-relaxed">
-            A infraestrutura definitiva para <span className="text-white">Scripts e Métodos</span>.
-          </p>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-white/40 text-sm md:text-lg font-medium max-w-2xl mb-12 uppercase tracking-[0.1em]"
+          >
+            Receba os seus Robux de forma <span className="text-white">imediata e segura</span>. <br className="hidden md:block" />
+            Promoção ativa: <span className="text-emerald-400 font-bold">+100% de bônus em todas as compras</span>.
+          </motion.p>
 
-          <div className="flex flex-col md:flex-row items-center justify-center gap-10">
+          {/* Botões e Stats */}
+          <div className="flex flex-col md:flex-row items-center gap-6 mb-16">
             <motion.a 
-              href="#catalog" 
+              href="#catalog"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group relative px-16 py-7 bg-white text-black font-black uppercase tracking-widest text-xs rounded-full hover:bg-purple-600 hover:text-white transition-all shadow-2xl shadow-purple-500/20"
+              className="px-10 py-5 bg-emerald-500 text-black font-black uppercase tracking-widest text-xs rounded-2xl flex items-center gap-3 shadow-[0_0_50px_rgba(16,185,129,0.4)] hover:bg-emerald-400 transition-all"
             >
-               <span className="relative z-10 flex items-center gap-4">EXPLORAR HUB <ArrowRight size={18} /></span>
+              <ShoppingCart size={18} /> COMEÇAR A COMPRAR
             </motion.a>
             
-            <div className="flex items-center gap-10 px-10 border-l border-white/10 h-16">
-               <div className="text-left">
-                  <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">Uptime</div>
-                  <div className="text-sm font-black text-emerald-400">99.9%</div>
+            <div className="flex items-center gap-8 px-8 h-12">
+               <div className="flex items-center gap-3">
+                 <ShieldCheck className="text-emerald-500" size={20} />
+                 <div className="text-left">
+                   <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Segurança</div>
+                   <div className="text-xs font-black text-white">100% GARANTIDA</div>
+                 </div>
                </div>
-               <div className="text-left">
-                  <div className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-1">Status</div>
-                  <div className="text-sm font-black text-purple-500">Verificado</div>
+               <div className="flex items-center gap-3">
+                 <Zap className="text-emerald-500" size={20} />
+                 <div className="text-left">
+                   <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Entrega</div>
+                   <div className="text-xs font-black text-white">INSTANTÂNEA</div>
+                 </div>
                </div>
             </div>
           </div>
-        </motion.div>
-      </div>
 
-      {/* Indicador de Scroll Dinâmico */}
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/10"
-      >
-         <ChevronDown size={32} />
-      </motion.div>
+          {/* Social Proof Simples */}
+          <div className="flex items-center gap-4 py-4 px-6 rounded-2xl bg-white/5 border border-white/10">
+            <div className="flex -space-x-2">
+              {[1,2,3,4].map(i => (
+                <div key={i} className="w-8 h-8 rounded-full border-2 border-black bg-emerald-900 flex items-center justify-center text-[10px] font-bold text-emerald-300">
+                  U{i}
+                </div>
+              ))}
+            </div>
+            <div className="text-left">
+              <div className="flex items-center gap-1 text-emerald-400">
+                <Star size={10} fill="currentColor" /><Star size={10} fill="currentColor" /><Star size={10} fill="currentColor" /><Star size={10} fill="currentColor" /><Star size={10} fill="currentColor" />
+              </div>
+              <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest">+5.000 Clientes Satisfeitos</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </section>
   );
 };

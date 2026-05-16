@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 # OpenCode 配置
 .opencode/
+.env
