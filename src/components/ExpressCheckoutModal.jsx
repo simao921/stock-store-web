@@ -121,7 +121,7 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Salvar pedido no Supabase Apenas quando clicar em "JÁ REALIZEI O PAGAMENTO" e definir status como 'pago' automaticamente
+  // Salvar pedido no Supabase Apenas quando clicar em "JÁ REALIZEI O PAGAMENTO" e definir status como 'pendente'
   const handleDone = async () => {
     if (!product) return;
     setLoading(true);
@@ -130,7 +130,7 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
         {
           roblox_nick: robloxNick.trim(),
           produto_id: product.id,
-          status: 'pago', // Confirmado automaticamente como Pago no banco
+          status: 'pendente', // Salvo como pendente para validacao manual do admin
           valor_pago: finalPrice
         }
       ]);
@@ -364,16 +364,18 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
               </motion.div>
             </div>
 
-            <h2 className="text-3xl font-black tracking-tighter text-white mb-3 uppercase font-heading">Sucesso!</h2>
-            <p className="text-white/60 text-xs font-bold mb-8 leading-relaxed uppercase tracking-widest">
-              O seu pedido foi gerado e registrado no banco de dados da <span className="text-red-500 font-black">Wisey Store</span>.
+            <h2 className="text-3xl font-black tracking-tighter text-white mb-3 uppercase font-heading">Pedido Registrado!</h2>
+            <p className="text-red-500 text-sm font-black mb-8 leading-relaxed uppercase tracking-wider">
+              Agora, abra um ticket no Discord e envie o seu comprovante de pagamento!
             </p>
 
-            <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-5 mb-8">
-              <div className="flex items-center justify-center gap-2 text-red-500 text-xs font-black uppercase tracking-widest">
-                <Sparkles size={14} /> Redirecionando ao Discord
+            <div className="bg-white/[0.04] border-2 border-white/10 rounded-2xl p-6 mb-8">
+              <div className="flex items-center justify-center gap-2 text-white text-xs font-black uppercase tracking-widest mb-2">
+                <Sparkles size={14} className="text-red-500" /> Redirecionando...
               </div>
-              <p className="text-[10px] text-white/50 mt-1 uppercase font-bold">Abra um ticket para resgate imediato!</p>
+              <p className="text-[11px] text-white/70 uppercase font-black tracking-wider leading-relaxed">
+                Estamos a abrir o teu suporte no Discord para enviares o comprovante e receberes os teus Robux!
+              </p>
             </div>
 
             <div className="flex items-center justify-center gap-3 text-red-500 text-xs font-black uppercase tracking-[0.2em] opacity-60">
