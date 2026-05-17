@@ -10,7 +10,6 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [orderId, setOrderId] = useState(null);
   const [pixCode, setPixCode] = useState('');
   
   // Coupon States
@@ -28,7 +27,6 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
       setStep(1);
       setRobloxNick('');
       setAcceptTerms(false);
-      setOrderId(null);
       setPixCode('');
       setCoupon('');
       setDiscount(0);
@@ -110,35 +108,11 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
     }
   };
 
-  const handleNext = async (e) => {
+  const handleNext = (e) => {
     e.preventDefault();
     if (!robloxNick.trim()) return alert('Por favor, insira o seu nick do Roblox.');
     if (!acceptTerms) return alert('Você deve aceitar os termos de uso.');
-    if (!product) return;
-
-    setLoading(true);
-    try {
-      // Inserir pedido no banco
-      const { data, error } = await supabase.from('pedidos').insert([
-        {
-          roblox_nick: robloxNick.trim(),
-          produto_id: product.id,
-          status: 'pendente',
-          valor_pago: finalPrice
-        }
-      ]).select();
-
-      if (error) throw error;
-
-      if (data && data.length > 0) {
-        setOrderId(data[0].id);
-        setStep(2);
-      }
-    } catch (err) {
-      alert(`Erro ao criar pedido: ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
+    setStep(2);
   };
 
   const copyToClipboard = () => {
@@ -147,20 +121,40 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDone = () => {
-    setStep(3);
-    setTimeout(() => {
-      onClose();
-      window.open("https://discord.gg/xqCtsTh9", "_blank");
-    }, 3000);
+  // Salvar pedido no Supabase Apenas quando clicar em "JÁ REALIZEI O PAGAMENTO"
+  const handleDone = async () => {
+    if (!product) return;
+    setLoading(true);
+    try {
+      const { error } = await supabase.from('pedidos').insert([
+        {
+          roblox_nick: robloxNick.trim(),
+          produto_id: product.id,
+          status: 'pendente',
+          valor_pago: finalPrice
+        }
+      ]);
+
+      if (error) throw error;
+
+      setStep(3);
+      setTimeout(() => {
+        onClose();
+        window.open("https://discord.gg/xqCtsTh9", "_blank");
+      }, 3000);
+    } catch (err) {
+      alert(`Erro ao salvar pedido: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen || !product) return null;
 
   return (
     <div className="fixed inset-0 z-[1000] flex items-center justify-center p-6 bg-black/95 backdrop-blur-md animate-in fade-in duration-300">
-      {/* Backdrop tap to close (only if not on success step) */}
-      {step !== 3 && (
+      {/* Backdrop tap to close (only if not on success step or loading) */}
+      {step !== 3 && !loading && (
         <div className="absolute inset-0 cursor-pointer" onClick={onClose} />
       )}
 
@@ -262,10 +256,10 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
 
               <button
                 type="submit"
-                disabled={loading || !robloxNick.trim() || !acceptTerms}
+                disabled={!robloxNick.trim() || !acceptTerms}
                 className="w-full py-5 rounded-3xl bg-red-600 text-white font-black uppercase tracking-widest text-sm hover:bg-red-500 transition-all shadow-xl shadow-red-600/30 flex items-center justify-center gap-3 mt-8 disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
               >
-                {loading ? 'Processando...' : 'IR PARA O PAGAMENTO'} <ArrowRight size={18} />
+                IR PARA O PAGAMENTO <ArrowRight size={18} />
               </button>
             </form>
           </motion.div>
@@ -280,7 +274,7 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
             transition={{ type: 'spring', damping: 25 }}
             className="relative w-full max-w-lg bg-[#0c0c0f] border-2 border-white/10 rounded-[2.5rem] p-10 shadow-[0_0_120px_rgba(220,38,38,0.25)] z-10 overflow-hidden"
           >
-            <button onClick={onClose} className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors">
+            <button disabled={loading} onClick={onClose} className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors disabled:opacity-20">
               <X size={26} />
             </button>
 
@@ -323,8 +317,9 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
                     className="w-full bg-white/5 border-2 border-white/10 rounded-2xl py-4 pl-6 pr-16 text-xs text-white/70 font-mono outline-none font-bold"
                   />
                   <button
+                    disabled={loading}
                     onClick={copyToClipboard}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-red-600 text-white rounded-xl hover:bg-red-500 transition-all shadow-lg cursor-pointer"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-red-600 text-white rounded-xl hover:bg-red-500 transition-all shadow-lg cursor-pointer disabled:opacity-50"
                   >
                     {copied ? <Check size={16} /> : <Copy size={16} />}
                   </button>
@@ -333,14 +328,16 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
 
               <div className="grid grid-cols-1 gap-4 w-full">
                 <button
+                  disabled={loading}
                   onClick={handleDone}
-                  className="w-full py-5 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-red-600 hover:text-white transition-all shadow-2xl cursor-pointer"
+                  className="w-full py-5 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-red-600 hover:text-white transition-all shadow-2xl cursor-pointer disabled:opacity-50"
                 >
-                  JÁ REALIZEI O PAGAMENTO
+                  {loading ? 'Confirmando...' : 'JÁ REALIZEI O PAGAMENTO'}
                 </button>
                 <button
+                  disabled={loading}
                   onClick={() => setStep(1)}
-                  className="w-full py-4 rounded-3xl bg-white/5 border border-white/10 text-white/50 font-black uppercase tracking-widest text-[10px] hover:text-white transition-all cursor-pointer"
+                  className="w-full py-4 rounded-3xl bg-white/5 border border-white/10 text-white/50 font-black uppercase tracking-widest text-[10px] hover:text-white transition-all cursor-pointer disabled:opacity-50"
                 >
                   VOLTAR / ALTERAR NICK
                 </button>
