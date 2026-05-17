@@ -20,6 +20,7 @@ const FAQ = lazy(() => import('./components/FAQ'));
 const Support = lazy(() => import('./components/Support'));
 const ProductDetails = lazy(() => import('./components/ProductDetails'));
 const Policies = lazy(() => import('./components/Policies'));
+const NotFound = lazy(() => import('./components/NotFound'));
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -115,7 +116,7 @@ function App() {
                 <Route path="/support" element={<Support />} />
                 <Route path="/produto/:id" element={<ProductDetails onBuyNow={setExpressProduct} />} />
                 <Route path="/policies" element={<Policies />} />
-                <Route path="*" element={<Navigate to="/" />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
           )}
