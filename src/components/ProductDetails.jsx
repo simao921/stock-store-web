@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { ShoppingCart, ArrowLeft, ShieldCheck, Zap, Star, CheckCircle2, TrendingUp } from 'lucide-react';
 
-const ProductDetails = ({ onAddToCart }) => {
+const ProductDetails = ({ onBuyNow }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -44,9 +44,9 @@ const ProductDetails = ({ onAddToCart }) => {
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
              <div className="aspect-video rounded-[3rem] overflow-hidden bg-white/[0.02] border border-white/10 shadow-2xl shadow-red-600/10">
                 {product.imagem_url ? (
-                  <img src={product.imagem_url} alt={product.nome} className="w-full h-full object-cover" />
+                   <img src={product.imagem_url} alt={product.nome} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center"><Zap size={80} className="text-red-600/10" /></div>
+                   <div className="w-full h-full flex items-center justify-center"><Zap size={80} className="text-red-600/10" /></div>
                 )}
              </div>
           </motion.div>
@@ -94,10 +94,10 @@ const ProductDetails = ({ onAddToCart }) => {
 
              <div className="flex flex-col sm:flex-row gap-6 pt-6">
                 <button 
-                  onClick={() => onAddToCart(product)}
-                  className="flex-grow py-6 rounded-3xl bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-red-700 hover:text-white transition-all shadow-2xl shadow-white/5 flex items-center justify-center gap-4"
+                  onClick={() => onBuyNow(product)}
+                  className="flex-grow py-6 rounded-3xl bg-red-600 text-white font-black uppercase tracking-widest text-xs hover:bg-red-500 transition-all shadow-2xl shadow-red-600/10 flex items-center justify-center gap-4 cursor-pointer"
                 >
-                   <ShoppingCart size={20} /> ADICIONAR AO CARRINHO
+                   <ShoppingCart size={20} /> COMPRAR AGORA
                 </button>
                 <div className="px-8 py-6 rounded-3xl bg-white/5 border border-white/10 flex items-center gap-4">
                    <TrendingUp className="text-red-500" size={20} />

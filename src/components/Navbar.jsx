@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X } from 'lucide-react';
 
-const Navbar = ({ cartCount, onOpenCart }) => {
+const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -62,25 +62,10 @@ const Navbar = ({ cartCount, onOpenCart }) => {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onOpenCart}
-              className="relative p-3 rounded-xl transition-all bg-red-600/5 border border-red-600/10 hover:border-red-600/40"
-            >
-              <ShoppingBag size={18} className="text-red-500" />
-              {cartCount > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }} animate={{ scale: 1 }}
-                  className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-600 text-black text-[9px] font-black flex items-center justify-center rounded-full"
-                >
-                  {cartCount}
-                </motion.span>
-              )}
-            </motion.button>
-
             <motion.a
-              href="#"
+              href="https://discord.gg/xqCtsTh9"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
               className="hidden sm:flex px-6 py-2.5 bg-red-600 text-black text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-red-500 transition-all shadow-lg shadow-red-600/10"
             >
