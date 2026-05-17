@@ -121,7 +121,7 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Salvar pedido no Supabase Apenas quando clicar em "JÁ REALIZEI O PAGAMENTO"
+  // Salvar pedido no Supabase Apenas quando clicar em "JÁ REALIZEI O PAGAMENTO" e definir status como 'pago' automaticamente
   const handleDone = async () => {
     if (!product) return;
     setLoading(true);
@@ -130,7 +130,7 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
         {
           roblox_nick: robloxNick.trim(),
           produto_id: product.id,
-          status: 'pendente',
+          status: 'pago', // Confirmado automaticamente como Pago no banco
           valor_pago: finalPrice
         }
       ]);
