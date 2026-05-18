@@ -21,6 +21,8 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
   const receiverCity = "Sao Paulo";
   const pixKey = "contaffxzx0@gmail.com";
 
+  const [countdown, setCountdown] = useState(12);
+
   // Reset modal state on open/close
   useEffect(() => {
     if (isOpen) {
@@ -31,8 +33,29 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
       setCoupon('');
       setDiscount(0);
       setAppliedCoupon(null);
+      setCountdown(12);
     }
   }, [isOpen]);
+
+  // Gestao do temporizador e redirecionamento automatico no sucesso
+  useEffect(() => {
+    let interval;
+    if (step === 3) {
+      setCountdown(12);
+      interval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            onClose();
+            window.open("https://discord.gg/xqCtsTh9", "_blank");
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [step, onClose]);
 
   const finalPrice = product ? product.valor * (1 - discount) : 0;
 
@@ -138,10 +161,6 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
       if (error) throw error;
 
       setStep(3);
-      setTimeout(() => {
-        onClose();
-        window.open("https://discord.gg/xqCtsTh9", "_blank");
-      }, 3000);
     } catch (err) {
       alert(`Erro ao salvar pedido: ${err.message}`);
     } finally {
@@ -369,17 +388,38 @@ const ExpressCheckoutModal = ({ isOpen, onClose, product }) => {
               Agora, abra um ticket no Discord e envie o seu comprovante de pagamento!
             </p>
 
-            <div className="bg-white/[0.04] border-2 border-white/10 rounded-2xl p-6 mb-8">
-              <div className="flex items-center justify-center gap-2 text-white text-xs font-black uppercase tracking-widest mb-2">
+            <div className="bg-white/[0.04] border-2 border-white/10 rounded-2xl p-6 mb-6">
+              <div className="flex items-center justify-center gap-2 text-white text-xs font-black uppercase tracking-widest mb-3">
                 <Sparkles size={14} className="text-red-500" /> Redirecionando...
               </div>
-              <p className="text-[11px] text-white/70 uppercase font-black tracking-wider leading-relaxed">
-                Estamos a abrir o teu suporte no Discord para enviares o comprovante e receberes os teus Robux!
+              <p className="text-[11px] text-white/70 uppercase font-black tracking-wider leading-relaxed mb-4">
+                Abriremos o teu suporte em <span className="text-red-500">{countdown} segundos</span> para entrega imediata dos teus Robux!
               </p>
+              
+              {/* Barra de Progresso do Countdown */}
+              <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                <motion.div 
+                  className="bg-red-600 h-full"
+                  initial={{ width: "100%" }}
+                  animate={{ width: "0%" }}
+                  transition={{ duration: 12, ease: "linear" }}
+                />
+              </div>
             </div>
 
-            <div className="flex items-center justify-center gap-3 text-red-500 text-xs font-black uppercase tracking-[0.2em] opacity-60">
-              <Zap size={12} className="animate-pulse" /> Conectando ao suporte...
+            <div className="flex flex-col gap-3">
+              <a
+                href="https://discord.gg/xqCtsTh9"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onClose}
+                className="w-full py-5 rounded-3xl bg-red-600 text-white font-black uppercase tracking-widest text-xs hover:bg-red-500 transition-all shadow-xl shadow-red-600/20 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                ABRIR DISCORD IMEDIATAMENTE <ArrowRight size={14} />
+              </a>
+              <div className="flex items-center justify-center gap-2 text-red-500 text-[10px] font-black uppercase tracking-[0.2em] opacity-60 pt-2">
+                <Zap size={12} className="animate-pulse" /> Conectando ao suporte...
+              </div>
             </div>
           </motion.div>
         )}
